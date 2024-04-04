@@ -1,7 +1,8 @@
+import crypto from 'crypto'
 import { Injectable } from '@nestjs/common'
-import type { Request } from 'express'
 import axios from 'axios'
 import iconvLite from 'iconv-lite'
+import type { Request } from 'express'
 
 @Injectable()
 export class SharedService {
@@ -37,5 +38,10 @@ export class SharedService {
     } catch (error) {
       return '未知'
     }
+  }
+
+  /** 随机 UUID */
+  randomUUID(): string {
+    return crypto.randomUUID()
   }
 }
