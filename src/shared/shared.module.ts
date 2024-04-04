@@ -7,7 +7,7 @@ import { APP_GUARD } from '@nestjs/core'
 @Module({
   imports: [
     /* 导入速率限制模块   ttl: 单位毫秒， 表示 ttl 秒内最多只能请求 limit 次， 避免暴力攻击 */
-    ThrottlerModule.forRoot([{ name: 'short', ttl: 0.01 * 60 * 1000, limit: 60 }]),
+    ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]),
   ],
   providers: [
     SharedService,
