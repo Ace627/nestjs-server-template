@@ -3,8 +3,8 @@ interface IConfig {
   SERVER_PORT?: number
   /** 全局路由前缀 */
   SERVER_GLOBAL_PREFIX?: string
-  /** 登录验证码有效期 */
-  SERVER_CAPTCHA_TIMEOUT?: string
+  /** 登录验证码有效期 单位秒 */
+  SERVER_CAPTCHA_TIMEOUT?: number
 
   /** 数据库地址 */
   SERVER_DB_HOST?: string

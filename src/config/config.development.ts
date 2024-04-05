@@ -5,4 +5,6 @@ import { defineConfig } from './defineConfig'
 
 export default defineConfig({
   SERVER_PORT: 3000,
+
+  SERVER_CAPTCHA_TIMEOUT: 300,
 })

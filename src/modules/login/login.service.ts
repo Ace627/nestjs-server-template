@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common'
-import { CreateLoginDto } from './dto/create-login.dto'
-import { UpdateLoginDto } from './dto/update-login.dto'
+import { ConfigService } from '@nestjs/config'
+import svgCaptcha from 'svg-captcha'
+import { SharedService } from '@/shared/shared.service'
 
 @Injectable()
 export class LoginService {
-  /* 获取图片验证码 */
-  createCaptchaImage() {
-    return '验证码获取成功'
+  constructor(private readonly sharedService: SharedService, private readonly configService: ConfigService) {}
+
+  /* 创建验证码图片 */
+  async createCaptchaImage() {
+    const { data, text } = svgCaptcha.createMathExpr({ noise: 3, background: '#F2FDFF', width: 120, height: 40 })
+    const uuid = this.sharedService.randomUUID()
+    const expireIn = this.configService.get<number>('SERVER_CAPTCHA_TIMEOUT', 300)
+    return { uuid, captcha: data }
   }
 
   /** 用户登录 */
