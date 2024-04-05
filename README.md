@@ -26,3 +26,4 @@ pnpm start:dev
 ## 参考文献
 
 - [NestJS 中文文档](http://nestjs.inode.club)
+- [MySQL Community Downloads](https://dev.mysql.com/downloads/installer)
