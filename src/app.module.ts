@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { SharedModule } from '@/shared/shared.module'
 import { LoginModule } from './modules/login/login.module'
+import { UserModule } from './modules/system/user/user.module';
 import configuration from './config/configuration'
 
 @Module({
@@ -11,6 +12,7 @@ import configuration from './config/configuration'
     /** 公共模块 */
     SharedModule,
     LoginModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

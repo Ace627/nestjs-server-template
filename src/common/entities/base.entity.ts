@@ -2,9 +2,12 @@
  * @description 数据库基类
  */
 import dayjs from 'dayjs'
-import { Column, CreateDateColumn, UpdateDateColumn, AfterLoad } from 'typeorm'
+import { PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, AfterLoad } from 'typeorm'
 
 export class BaseEntity {
+  @PrimaryGeneratedColumn({ comment: '自增主键' })
+  id: number
+
   @Column({ comment: '显示排序', default: 1 })
   order: number
 

@@ -16,6 +16,7 @@ export default defineConfig({
   SERVER_DB_USERNAME: 'unknown-trove',
   SERVER_DB_PASSWORD: '123456789',
   SERVER_DB_AUTOLOAD: true,
+  SERVER_DB_SYNCHRONIZE: true,
 
   // Redis 配置
   SERVER_REDIS_HOST: '127.0.0.1',

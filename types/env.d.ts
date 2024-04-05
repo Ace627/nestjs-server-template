@@ -20,6 +20,8 @@ interface IConfig {
   SERVER_DB_PASSWORD?: string
   /** 是否自动加载数据库实体 */
   SERVER_DB_AUTOLOAD?: boolean
+  /** 改动是否自动同步到数据库 */
+  SERVER_DB_SYNCHRONIZE?: boolean
 
   /** Jwt Token 密钥 */
   SERVER_TOKEN_SECRET?: string

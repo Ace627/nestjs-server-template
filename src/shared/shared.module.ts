@@ -23,6 +23,7 @@ import { ReponseTransformInterceptor } from '@/common/interceptors/reponse-trans
         retryAttempts: 10, // 尝试连接数据库的次数 (默认值: 10)
         retryDelay: 3000, // 连接重试之间的延迟（毫秒） (默认值: 3000)
         autoLoadEntities: configService.get<boolean>('SERVER_DB_AUTOLOAD'), // 如果是 true, 将自动加载实体（默认值: false)
+        synchronize: configService.get<boolean>('SERVER_DB_SYNCHRONIZE'),
         timezone: '+08:00', // 东八区
       }),
       inject: [ConfigService],
