@@ -2,18 +2,21 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LoginService } from './login.service'
 import { CreateLoginDto } from './dto/create-login.dto'
 import { UpdateLoginDto } from './dto/update-login.dto'
+import { Public } from '@/common/decorators/public.decorator'
 
 @Controller()
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   /* 获取图片验证码 */
+  @Public()
   @Get('captcha')
   getCaptcha() {
     return this.loginService.createCaptchaImage()
   }
 
   /** 用户登录 */
+  @Public()
   @Post('login')
   login() {
     return this.loginService.login()
@@ -32,6 +35,7 @@ export class LoginController {
   }
 
   /* 退出登录 */
+  @Public()
   @Post('logout')
   logout() {
     return this.loginService.logout()
