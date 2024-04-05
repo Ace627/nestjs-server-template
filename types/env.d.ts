@@ -6,6 +6,8 @@ interface IConfig {
   /** 登录验证码有效期 单位秒 */
   SERVER_CAPTCHA_TIMEOUT?: number
 
+  /** 数据库类型 */
+  SERVER_DB_TYPE?: 'mysql' | 'mongodb' | 'sqlite'
   /** 数据库地址 */
   SERVER_DB_HOST?: string
   /** 数据库端口 */
@@ -16,6 +18,8 @@ interface IConfig {
   SERVER_DB_USERNAME?: string
   /** 数据库密码 */
   SERVER_DB_PASSWORD?: string
+  /** 是否自动加载数据库实体 */
+  SERVER_DB_AUTOLOAD?: boolean
 
   /** Jwt Token 密钥 */
   SERVER_TOKEN_SECRET?: string
