@@ -25,7 +25,7 @@ pnpm start:dev
 
 ## 使用须知
 
-- 请务必在 `src/config` 目录下，修改 `MySQL` 的配置为自己当前的配置，否则无法启动
+- 请务必在 `src/config` 目录下，修改 `MySQL` 和 `Redis` 的配置为自己当前的配置，否则无法启动
 
 ## 参考文献
 

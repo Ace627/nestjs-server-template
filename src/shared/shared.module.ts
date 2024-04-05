@@ -1,8 +1,9 @@
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
-import { Global, Module } from '@nestjs/common'
+import { Global, Logger, Module } from '@nestjs/common'
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
+import { RedisModule } from '@nestjs-modules/ioredis'
 import { SharedService } from '@/shared/shared.service'
 import { AllExceptionsFilter } from '@/common/filters/all-exception.filter'
 import { ReponseTransformInterceptor } from '@/common/interceptors/reponse-transform.interceptor'
@@ -23,6 +24,18 @@ import { ReponseTransformInterceptor } from '@/common/interceptors/reponse-trans
         retryDelay: 3000, // 连接重试之间的延迟（毫秒） (默认值: 3000)
         autoLoadEntities: configService.get<boolean>('SERVER_DB_AUTOLOAD'), // 如果是 true, 将自动加载实体（默认值: false)
         timezone: '+08:00', // 东八区
+      }),
+      inject: [ConfigService],
+    }),
+    /** 连接 Redis */
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'single',
+        options: {
+          host: configService.get<string>('SERVER_REDIS_HOST'),
+          port: configService.get<number>('SERVER_REDIS_PORT'),
+          password: configService.get<string>('SERVER_REDIS_PASSWORD'),
+        },
       }),
       inject: [ConfigService],
     }),
