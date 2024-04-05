@@ -8,6 +8,7 @@ export default defineConfig({
 
   SERVER_CAPTCHA_TIMEOUT: 300,
 
+  // MySQL 数据库配置
   SERVER_DB_TYPE: 'mysql',
   SERVER_DB_HOST: '127.0.0.1',
   SERVER_DB_PORT: 3306,
