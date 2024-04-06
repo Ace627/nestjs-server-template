@@ -1,3 +1,5 @@
+import type { IConfig } from './defineConfig'
+
 /** 判断系统是否是开发环境 */
 export function isDevelopment(): boolean {
   return process.env.NODE_ENV === 'development'
