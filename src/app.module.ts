@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { SharedModule } from '@/shared/shared.module'
 import { LoginModule } from './modules/login/login.module'
 import { UserModule } from './modules/system/user/user.module';
+import { RoleModule } from './modules/system/role/role.module';
 import configuration from './config/configuration'
 
 @Module({
@@ -13,6 +14,7 @@ import configuration from './config/configuration'
     SharedModule,
     LoginModule,
     UserModule,
+    RoleModule,
   ],
   controllers: [],
   providers: [],
