@@ -23,7 +23,7 @@ export class LoginController {
   }
 
   /** 获取用户信息 */
-  @Get('login')
+  @Get('getInfo')
   getInfo() {
     return this.loginService.getInfo()
   }
