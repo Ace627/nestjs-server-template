@@ -5,9 +5,6 @@ import dayjs from 'dayjs'
 import { PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, AfterLoad } from 'typeorm'
 
 export class BaseEntity {
-  @PrimaryGeneratedColumn({ comment: '自增主键' })
-  id: number
-
   @Column({ comment: '显示排序', default: 1 })
   order: number
 

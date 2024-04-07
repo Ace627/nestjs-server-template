@@ -26,7 +26,7 @@ export class UserService {
 
   /** 通过用户 ID 查询用户 */
   async findUserById(userId: number) {
-    return this.userRepository.findOneBy({ id: Equal(userId) })
+    return this.userRepository.findOneBy({ userId: Equal(userId) })
   }
 
   /** 根据条件分页查询用户列表 */
