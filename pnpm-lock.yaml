@@ -65,6 +65,9 @@ dependencies:
   svg-captcha:
     specifier: 1.4.0
     version: 1.4.0
+  systeminformation:
+    specifier: 5.22.7
+    version: 5.22.7
   typeorm:
     specifier: 0.3.20
     version: 0.3.20(ioredis@5.3.2)(mysql2@3.9.3)(ts-node@10.9.2)
@@ -5141,6 +5144,13 @@ packages:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
     dev: true
+
+  /systeminformation@5.22.7:
+    resolution: {integrity: sha512-AWxlP05KeHbpGdgvZkcudJpsmChc2Y5Eo/GvxG/iUA/Aws5LZKHAMSeAo+V+nD+nxWZaxrwpWcnx4SH3oxNL3A==}
+    engines: {node: '>=8.0.0'}
+    os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
+    hasBin: true
+    dev: false
 
   /tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}

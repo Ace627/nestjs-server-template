@@ -4,6 +4,7 @@ import { SharedModule } from '@/shared/shared.module'
 import { LoginModule } from './modules/login/login.module'
 import { UserModule } from './modules/system/user/user.module';
 import { RoleModule } from './modules/system/role/role.module';
+import { ServerModule } from './modules/monitor/server/server.module';
 import configuration from './config/configuration'
 
 @Module({
@@ -15,6 +16,7 @@ import configuration from './config/configuration'
     LoginModule,
     UserModule,
     RoleModule,
+    ServerModule,
   ],
   controllers: [],
   providers: [],
