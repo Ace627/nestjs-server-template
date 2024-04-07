@@ -10,13 +10,13 @@ async function bootstrap() {
 
   /** 解构环境变量 */
   const configService = app.get(ConfigService)
-  const SERVER_PORT = configService.get<number>('SERVER_PORT', 3000)
+  const port = configService.get<number>('port', 3000)
 
   /** 统一注册项目所用的中间件 */
   registerMiddleWare(app)
 
-  await app.listen(SERVER_PORT)
+  await app.listen(port)
 
-  Logger.verbose(`Node Server is running at http://localhost:${SERVER_PORT}`)
+  Logger.verbose(`Node Server is running at http://localhost:${port}`)
 }
 bootstrap()

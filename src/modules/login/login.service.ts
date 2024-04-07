@@ -14,7 +14,7 @@ export class LoginService {
   async createCaptchaImage() {
     const { data, text } = svgCaptcha.createMathExpr({ noise: 3, background: '#F2FDFF', width: 120, height: 40 })
     const uuid = this.sharedService.randomUUID()
-    const expireIn = this.configService.get<number>('SERVER_CAPTCHA_TIMEOUT', 300)
+    const expireIn = this.configService.get<number>('captchaTimeout', 300)
     await this.redisService.set(`${RedisEnum.CAPTCHA_IMG_KEY}:${uuid}`, text, 'EX', expireIn)
     return { uuid, captcha: data }
   }

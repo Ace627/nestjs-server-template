@@ -5,9 +5,11 @@ import { defineConfig } from './defineConfig'
 
 export default defineConfig({
   /** 服务器监听端口 */
-  SERVER_PORT: 3000,
+  port: 3000,
   /** 登录验证码有效期 单位秒 */
-  SERVER_CAPTCHA_TIMEOUT: 300,
+  captchaTimeout: 300,
+  // 是否演示环境
+  isDemoEnvironment: false,
   /** MySQL 数据库配置 */
   database: {
     type: 'mysql',

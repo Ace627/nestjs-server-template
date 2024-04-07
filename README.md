@@ -19,8 +19,7 @@ pnpm start:dev
 | |-config                              # 环境变量配置目录
 |   |-config.development.ts             # 测试环境配置文件
 |   |-config.production.ts              # 正式环境配置文件
-|-types
-| |-env.d.ts                            # 环境变量类型接口定义文件
+|   |-defineConfig.ts                   # 用于智能提示 & 环境变量类型接口定义
 ```
 
 ## 使用须知

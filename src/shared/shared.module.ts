@@ -7,6 +7,7 @@ import { RedisModule, type RedisModuleOptions } from '@nestjs-modules/ioredis'
 import { SharedService } from '@/shared/shared.service'
 import { AllExceptionsFilter } from '@/common/filters/all-exception.filter'
 import { ReponseTransformInterceptor } from '@/common/interceptors/reponse-transform.interceptor'
+import { DemoEnvironmentGuard } from '@/common/guards/demo-environment.guard'
 
 @Global()
 @Module({
@@ -22,6 +23,8 @@ import { ReponseTransformInterceptor } from '@/common/interceptors/reponse-trans
     SharedService,
     /** 全局异常过滤器 */
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
+    /** 是否演示环境守卫 */
+    { provide: APP_GUARD, useClass: DemoEnvironmentGuard },
     /** 全局返回值转化拦截器 */
     { provide: APP_INTERCEPTOR, useClass: ReponseTransformInterceptor },
     /** 速率限制守卫 */

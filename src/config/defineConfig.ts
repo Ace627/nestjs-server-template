@@ -7,11 +7,14 @@ export const defineConfig = (config: IConfig): IConfig => config
 /** 环境变量的类型声明 */
 export interface IConfig {
   /** 服务器监听端口 */
-  SERVER_PORT?: number
+  port?: number
   /** 全局路由前缀 */
-  SERVER_GLOBAL_PREFIX?: string
+  globalPrefix?: string
+  /** 是否演示环境守卫 */
+  isDemoEnvironment?: boolean
   /** 登录验证码有效期 单位秒 */
-  SERVER_CAPTCHA_TIMEOUT?: number
+  captchaTimeout?: number
+
   /** MySQL 数据库配置 */
   database?: TypeOrmModuleOptions
   /** Redis 配置 */
