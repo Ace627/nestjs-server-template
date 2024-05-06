@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { LoginService } from './login.service'
 import { CreateLoginDto } from './dto/create-login.dto'
 import { UpdateLoginDto } from './dto/update-login.dto'

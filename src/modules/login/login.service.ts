@@ -10,13 +10,14 @@ import { RedisEnum } from '@/enums/redis.enum'
 export class LoginService {
   constructor(private readonly sharedService: SharedService, private readonly configService: ConfigService, @InjectRedis() private readonly redisService: Redis) {}
 
-  /* 创建验证码图片 */
+  /** 创建并返回 base64 格式的验证码图片 */
   async createCaptchaImage() {
     const { data, text } = svgCaptcha.createMathExpr({ noise: 3, background: '#F2FDFF', width: 120, height: 40 })
     const uuid = this.sharedService.randomUUID()
     const expireIn = this.configService.get<number>('captchaTimeout', 300)
     await this.redisService.set(`${RedisEnum.CAPTCHA_IMG_KEY}:${uuid}`, text, 'EX', expireIn)
-    return { uuid, captcha: data }
+    const captcha = `data:image/svg+xml;base64,${Buffer.from(data).toString('base64')}`
+    return { uuid, captcha }
   }
 
   /** 用户登录 */
