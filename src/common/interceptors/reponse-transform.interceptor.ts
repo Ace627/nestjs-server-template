@@ -1,11 +1,10 @@
 /**
  * @description 返回值转化拦截器
  */
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger } from '@nestjs/common'
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger, HttpStatus } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import type { Request, Response } from 'express'
-import { HttpStatus } from '@nestjs/common/enums'
 
 @Injectable()
 export class ReponseTransformInterceptor implements NestInterceptor {
