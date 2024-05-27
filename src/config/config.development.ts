@@ -15,9 +15,9 @@ export default defineConfig({
     type: 'mysql',
     host: '127.0.0.1',
     port: 3306,
-    database: 'nestjs-server-template',
-    username: 'nestjs-server-template',
-    password: 'templatetemplate',
+    database: 'web-blog',
+    username: 'root',
+    password: 'root123456',
     retryAttempts: 10, // 尝试连接数据库的次数 (默认值: 10)
     retryDelay: 3000, // 连接重试之间的延迟（毫秒） (默认值: 3000)
     autoLoadEntities: true, // 如果是 true, 将自动加载实体（默认值: false)

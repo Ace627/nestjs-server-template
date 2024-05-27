@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Query, Param, Delete } from '@nestjs/common'
 import { UserService } from './user.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -8,7 +8,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   /** 新增用户 */
-  @Post()
+  @Post('create')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto)
   }
@@ -20,8 +20,8 @@ export class UserController {
   }
 
   /** 根据 id 删除一个用户 */
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id)
+  @Delete()
+  deleteOneById(@Query('id') id: string) {
+    return this.userService.deleteOneById(+id)
   }
 }

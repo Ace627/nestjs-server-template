@@ -12,16 +12,16 @@ export class UserService {
 
   /** 新增用户 */
   async create(createUserDto: CreateUserDto) {
-    const target = await this.findOneByAccount(createUserDto.account)
-    if (!target) throw new ApiException(`账号 ${createUserDto.account} 已存在`)
+    const target = await this.findOneByAccount(createUserDto.username)
+    if (!target) throw new ApiException(`账号 ${createUserDto.username} 已存在`)
     const entity = Object.assign(new UserEntity(), createUserDto)
     await this.userRepository.save(entity)
     return '添加成功'
   }
 
   /** 通过账号查询用户 */
-  findOneByAccount(account: string) {
-    return this.userRepository.findOneBy({ account: Equal(account) })
+  findOneByAccount(username: string) {
+    return this.userRepository.findOneBy({ username: Equal(username) })
   }
 
   /** 通过用户 ID 查询用户 */
@@ -36,7 +36,7 @@ export class UserService {
   }
 
   /** 根据 id 删除一个用户 */
-  async remove(id: number) {
+  async deleteOneById(id: number) {
     await this.userRepository.delete(id)
     return `删除成功`
   }
