@@ -1,24 +1,29 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
-import { SharedModule } from '@/shared/shared.module'
-import { LoginModule } from './modules/login/login.module'
-import { UserModule } from './modules/system/user/user.module';
-import { RoleModule } from './modules/system/role/role.module';
-import { ServerModule } from './modules/monitor/server/server.module';
-import configuration from './config/configuration'
+import { Module } from '@nestjs/common' // 框架核心库
+import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler' // 第三方库
+import { ResponseTransformInterceptor } from './interceptor/response-transform.interceptor'
+import { AllExceptionsFilter } from './filter/all-exception.filter'
+import { RootModule } from './modules/root/root.module'
+import { SharedModule } from './shared/shared.module'
+import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
   imports: [
-    /** 配置环境变量 http://nestjs.inode.club/techniques/configuration */
-    ConfigModule.forRoot({ load: [configuration], isGlobal: true, cache: true }),
-    /** 公共模块 */
+    // 导入速率限制模块   ttl: 单位毫秒， 表示 ttl 秒内最多只能请求 limit 次， 避免暴力攻击
+    ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]),
+
+    // 全局模块
     SharedModule,
-    LoginModule,
-    UserModule,
-    RoleModule,
-    ServerModule,
+
+    // 业务模块
+    RootModule,
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
+
+  providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard }, // 速率限制守卫
+    { provide: APP_FILTER, useClass: AllExceptionsFilter }, // 全局异常过滤器
+    { provide: APP_INTERCEPTOR, useClass: ResponseTransformInterceptor }, // 全局返回值转化拦截器（拦截器中的 handle 从下往上执行）
+  ],
 })
 export class AppModule {}

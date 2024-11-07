@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
+    // 设定编译后的 JavaScript 文件的 ECMAScript 目标版本
+    "target": "ES2021",
     // 设定编译后的 JavaScript 文件使用的模块化方案
     "module": "commonjs",
+    // 模块加载兼容模式,可以使用 import from 语法导入 commonJS 模块
+    "esModuleInterop": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    // 模块加载兼容模式,可以使用 import from 语法导入 commonJS 模块
-    "esModuleInterop": true,
-    // 设定编译后的 JavaScript 文件的 ECMAScript 目标版本
-    "target": "ES2017",
-    "sourceMap": false,
+    "sourceMap": true,
     "outDir": "./dist",
     // 解析非相对模块名的基准目录
     "baseUrl": "./",
@@ -21,15 +21,11 @@
       "#/*": ["types/*"]
     },
     "incremental": true,
-    // 忽略所有的声明文件（ *.d.ts）的类型检查
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  },
-
-  // 定义希望被编译的文件所在的目录 ** 代表任意目录 * 代表任意文件
-  "include": ["src/**/*.ts", "types/**/*.d.ts"]
+  }
 }
