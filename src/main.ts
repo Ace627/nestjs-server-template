@@ -1,10 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 import { type NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
-import { SharedService } from './shared/shared.service'
-import { IpUtil } from './utils/ip.util'
-import { registerMiddleWare } from './middleware'
 import { setupSwagger } from './swagger.config'
+import { registerMiddleWare } from './middleware'
+import { SharedService } from './shared/shared.service'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -16,13 +15,7 @@ async function bootstrap() {
   app.setGlobalPrefix('/api')
 
   // 配置静态资源目录
-  app.useStaticAssets(sharedService.pathResolve('public'), {
-    prefix: '/public/',
-    setHeaders(res, path, stat) {
-      res.header('Access-Control-Allow-Origin', '*') // 设置跨域头部
-      res.header('Access-Control-Allow-Methods', 'GET')
-    },
-  })
+  app.useStaticAssets(sharedService.pathResolve('public'))
 
   // 统一注册项目所用的中间件
   registerMiddleWare(app)
@@ -34,7 +27,6 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000)
 
   // 打印本地服务地址
-  console.log(await app.getUrl())
   console.log('\n--------------------------------------------------')
   console.log(`➜  Local:    http://127.0.0.1:3000/api`)
   console.log(`➜  Swagger:  http://127.0.0.1:3000/doc`)

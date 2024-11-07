@@ -7,3 +7,6 @@ interface Captcha {
   /** base64 格式的验证码图片 */
   captcha: string
 }
+
+/** 验证码类型 */
+type CaptchaType = 'string' | 'math'

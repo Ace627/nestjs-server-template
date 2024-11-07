@@ -1,5 +1,5 @@
 {
-  "name": "node-server",
+  "name": "nestjs-server-template",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -28,6 +28,7 @@
     "@nestjs/swagger": "8.0.2",
     "@nestjs/throttler": "^6.2.1",
     "axios": "1.7.7",
+    "exceljs": "4.4.0",
     "helmet": "8.0.0",
     "iconv-lite": "0.6.3",
     "reflect-metadata": "^0.2.0",
