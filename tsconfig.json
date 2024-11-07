@@ -6,6 +6,7 @@
     "module": "commonjs",
     // 模块加载兼容模式,可以使用 import from 语法导入 commonJS 模块
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,

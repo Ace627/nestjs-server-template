@@ -3,9 +3,9 @@ import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler' // 第三方库
 import { ResponseTransformInterceptor } from './interceptor/response-transform.interceptor'
 import { AllExceptionsFilter } from './filter/all-exception.filter'
-import { RootModule } from './modules/root/root.module'
+
 import { SharedModule } from './shared/shared.module'
-import { AuthModule } from './modules/auth/auth.module'
+import { ToolModule } from './modules/tool/tool.module';
 
 @Module({
   imports: [
@@ -15,9 +15,9 @@ import { AuthModule } from './modules/auth/auth.module'
     // 全局模块
     SharedModule,
 
+    ToolModule,
+
     // 业务模块
-    RootModule,
-    AuthModule,
   ],
 
   providers: [

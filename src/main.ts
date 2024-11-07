@@ -4,6 +4,7 @@ import { AppModule } from './app.module'
 import { SharedService } from './shared/shared.service'
 import { IpUtil } from './utils/ip.util'
 import { registerMiddleWare } from './middleware'
+import { setupSwagger } from './swagger.config'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -26,14 +27,17 @@ async function bootstrap() {
   // 统一注册项目所用的中间件
   registerMiddleWare(app)
 
+  // 配置 Swagger 接口文档
+  setupSwagger(app)
+
   // 监听服务端口
   await app.listen(process.env.PORT ?? 3000)
 
   // 打印本地服务地址
+  console.log(await app.getUrl())
   console.log('\n--------------------------------------------------')
-  console.log(`➜  Local:   http://127.0.0.1:3000/api`)
-  console.log(`➜  Network: http://${IpUtil.getLocalLanIPv4()}:3000/api`)
-  console.log(`➜  Upload:  http://${IpUtil.getLocalLanIPv4()}:3000/public/preview/upload.html`)
+  console.log(`➜  Local:    http://127.0.0.1:3000/api`)
+  console.log(`➜  Swagger:  http://127.0.0.1:3000/doc`)
   console.log('--------------------------------------------------')
 }
 
