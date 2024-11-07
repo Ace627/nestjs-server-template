@@ -29,7 +29,7 @@ async function bootstrap() {
   // 打印本地服务地址
   console.log('\n--------------------------------------------------')
   console.log(`➜  Local:    http://127.0.0.1:3000/api`)
-  console.log(`➜  Swagger:  http://127.0.0.1:3000/doc`)
+  console.log(`➜  Swagger:  http://127.0.0.1:3000/doc.html`)
   console.log('--------------------------------------------------')
 }
 

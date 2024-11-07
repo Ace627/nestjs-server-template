@@ -1,8 +1,8 @@
 {
   "name": "nestjs-server-template",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "NestJS的模板项目，内置Swagger接口文档",
+  "author": "当时只道是寻常",
   "private": true,
   "packageManager": "pnpm@9.9.0",
   "license": "UNLICENSED",
@@ -31,6 +31,7 @@
     "exceljs": "4.4.0",
     "helmet": "8.0.0",
     "iconv-lite": "0.6.3",
+    "nestjs-knife4j2": "1.0.4",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "svg-captcha": "^1.4.0"

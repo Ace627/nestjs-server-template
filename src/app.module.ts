@@ -5,7 +5,7 @@ import { ResponseTransformInterceptor } from './interceptor/response-transform.i
 import { AllExceptionsFilter } from './filter/all-exception.filter'
 
 import { SharedModule } from './shared/shared.module'
-import { ToolModule } from './modules/tool/tool.module';
+import { ToolModule } from './modules/tool/tool.module'
 
 @Module({
   imports: [
@@ -15,9 +15,8 @@ import { ToolModule } from './modules/tool/tool.module';
     // 全局模块
     SharedModule,
 
-    ToolModule,
-
     // 业务模块
+    ToolModule,
   ],
 
   providers: [

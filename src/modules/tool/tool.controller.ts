@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { ToolService } from './tool.service'
 
-@ApiTags('工具服务')
+@ApiTags('工具服务 | 开发用')
 @Controller('tool')
 export class ToolController {
   constructor(private readonly toolService: ToolService) {}
