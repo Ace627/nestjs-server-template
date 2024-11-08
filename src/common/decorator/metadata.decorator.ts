@@ -1,8 +1,8 @@
 import { SetMetadata } from '@nestjs/common'
-import { DecoratorKey } from './decorator-key'
+import { ALLOW_NO_TOKEN, ALLOW_NO_TRANSFORM } from '@/common/constant/decorator.constant'
 
-/** 设置不进行 jwt 校验 */
-export const AllowNoToken = () => SetMetadata(DecoratorKey.ALLOW_NO_TOKEN, true)
+/** 不需要 Jwt 校验 */
+export const AllowNoToken = () => SetMetadata(ALLOW_NO_TOKEN, true)
 
-/** 设置不进行响应数据的结构包装 */
-export const AllowNoTransform = () => SetMetadata(DecoratorKey.ALLOW_NO_TRANSFORM, true)
+/** 响应数据不包装直接返回 */
+export const AllowNoTransform = () => SetMetadata(ALLOW_NO_TRANSFORM, true)
