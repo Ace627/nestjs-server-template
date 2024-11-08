@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { LoginService } from './login.service'
 import { LoginParameterDto } from './login.dto'
-import { AllowNoToken } from '@/decorator'
+import { AllowNoToken } from '@/common'
 
 @ApiTags('登录模块')
 @Controller()

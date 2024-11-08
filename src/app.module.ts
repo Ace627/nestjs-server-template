@@ -3,11 +3,11 @@ import { APP_GUARD, APP_PIPE, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { ConfigModule, ConfigService } from '@nestjs/config' // 第三方库
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { ResponseTransformInterceptor } from './interceptor/response-transform.interceptor'
-import { AllExceptionsFilter } from './filter/all-exception.filter'
+import { AllExceptionsFilter, ResponseTransformInterceptor } from '@/common'
 import { SharedModule } from './shared/shared.module'
 import { configuration, envFilePath } from './config'
 import { LoginModule } from './modules/login/login.module'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
   imports: [
@@ -21,6 +21,7 @@ import { LoginModule } from './modules/login/login.module'
     SharedModule,
     // 业务模块
     LoginModule,
+    UserModule,
   ],
 
   providers: [

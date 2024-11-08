@@ -10,7 +10,7 @@ export class ResponseTransformInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest<Request>()
     const response = context.switchToHttp().getResponse<Response>()
 
-    Logger.verbose(`请求成功 ${request.method.toUpperCase()} ${request.url}`)
+    Logger.verbose(`请求成功 ${request.method.toUpperCase()} ${request.path}`)
 
     return next.handle().pipe(
       map((data) => {
