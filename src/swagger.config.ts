@@ -12,7 +12,7 @@ export async function setupSwagger(app: INestApplication) {
   documentBuilder.setVersion(version)
   documentBuilder.setContact(author, '', '1207588603@qq.com')
   documentBuilder.addTag('文档概览') // 左侧生成一个和主页同样功能的菜单，无法去除，属实恶心
-  documentBuilder.setBasePath('/api')
+  // documentBuilder.setBasePath('/api') // 已废弃
   documentBuilder.setDescription(description)
 
   // 配置文档的额外选项

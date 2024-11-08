@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common' // 框架核心库
 import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler' // 第三方库
+import { ConfigModule, ConfigService } from '@nestjs/config' // 第三方库
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { ResponseTransformInterceptor } from './interceptor/response-transform.interceptor'
 import { AllExceptionsFilter } from './filter/all-exception.filter'
-
 import { SharedModule } from './shared/shared.module'
 import { ToolModule } from './modules/tool/tool.module'
+import { configuration, envFilePath } from './config'
 
 @Module({
   imports: [
+    /** 配置环境变量 */
+    ConfigModule.forRoot({ load: [configuration], envFilePath, isGlobal: true, cache: true }),
     // 导入速率限制模块   ttl: 单位毫秒， 表示 ttl 秒内最多只能请求 limit 次， 避免暴力攻击
     ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]),
 
