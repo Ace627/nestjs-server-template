@@ -12,7 +12,7 @@ export class UserEntity extends CommonEntity {
   @Column({ comment: '用户昵称', default: null })
   nickname: string
 
-  @Column({ comment: '用户头像', default: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80' })
+  @Column({ comment: '用户头像', default: null })
   avatar: string
 
   @Column({ comment: '真实姓名', default: null })
