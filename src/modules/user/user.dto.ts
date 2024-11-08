@@ -1,11 +1,13 @@
 import { GenderEnum } from '@/enums'
 import { ApiProperty, ApiPropertyOptional, PickType } from '@nestjs/swagger'
-import { IsNotEmpty, IsOptional } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class CreateUserDto {
   @ApiProperty({ type: 'string', default: 'someone', description: '用户账号' })
   @IsNotEmpty({ message: '用户账号不可为空' })
   username: string
+
+  password: string
 
   @ApiProperty({ type: 'string', default: '青莲居士', description: '用户昵称' })
   @IsNotEmpty({ message: '用户昵称不可为空' })
