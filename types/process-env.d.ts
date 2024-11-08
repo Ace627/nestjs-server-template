@@ -10,5 +10,9 @@ namespace NodeJS {
     MYSQL_PASSWORD: string
     MYSQL_DATABASE: string
     MYSQL_SYNCHRONIZE: string
+
+    REDIS_HOST: string
+    REDIS_PORT: string
+    REDIS_PASSWORD: string
   }
 }

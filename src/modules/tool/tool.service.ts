@@ -4,12 +4,15 @@ import { CaptchaUtil } from '@/utils/captcha.util'
 
 @Injectable()
 export class ToolService {
+  constructor() {}
+
   randomUUID() {
     return crypto.randomUUID()
   }
 
-  getCaptcha(type: CaptchaType) {
-    return type === 'math' ? CaptchaUtil.createMathCaptcha() : CaptchaUtil.createCaptcha()
+  async getCaptcha(type: CaptchaType) {
+    const { text, captcha, uuid } = type === 'math' ? await CaptchaUtil.createMathCaptcha() : await CaptchaUtil.createCaptcha()
+    return { captcha, uuid }
   }
 
   async excelToJson(file: Express.Multer.File) {

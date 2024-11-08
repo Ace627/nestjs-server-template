@@ -1,4 +1,4 @@
-import pkg from '../package.json'
+import pkg from '../../package.json'
 import { knife4jSetup } from 'nestjs-knife4j2'
 import type { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule, type SwaggerDocumentOptions } from '@nestjs/swagger'

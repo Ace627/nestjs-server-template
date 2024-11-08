@@ -1,10 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 import { type NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
-import { setupSwagger } from './swagger.config'
+import { setupSwagger } from '@/config'
 import { registerMiddleWare } from './middleware'
 import { SharedService } from './shared/shared.service'
-import { ConfigService } from '@nestjs/config'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
