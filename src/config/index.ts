@@ -2,4 +2,3 @@
 export const envFilePath = [`.env.${process.env.NODE_ENV}.local`, `.env.${process.env.NODE_ENV}`, `.env`]
 
 export { configuration } from './configuration'
-export { setupSwagger } from './swagger.config'

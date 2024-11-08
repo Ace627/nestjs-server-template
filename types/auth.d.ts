@@ -10,5 +10,3 @@ interface Captcha {
 
 /** 验证码类型 */
 type CaptchaType = 'string' | 'math'
-
-type TableQueryParams<T = any> = T & { take: number; skip: number }

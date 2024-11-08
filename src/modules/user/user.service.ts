@@ -2,8 +2,8 @@ import { HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './user.entity'
 import { Equal, FindOptionsWhere, Like, Repository } from 'typeorm'
-import { ApiException, TableQueryDto } from '@/common'
-import { CreateUserDto, QueryUserListDto } from './user.dto'
+import { ApiException } from '@/common'
+import { CreateUserDto } from './user.dto'
 import argon2 from 'argon2'
 
 @Injectable()
@@ -42,7 +42,7 @@ export class UserService {
     return records
   }
 
-  async findList(queryParams: QueryUserListDto & TableQueryDto) {
+  async findList(queryParams: TableQueryParams<UserEntity>) {
     const { skip, take, username, nickname, realname, phone } = queryParams
     /* -------------------------------- 准备模糊查询参数 -------------------------------- */
     const where: FindOptionsWhere<UserEntity> = {}
