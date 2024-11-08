@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common' // 框架核心库
 import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { ConfigModule, ConfigService } from '@nestjs/config' // 第三方库
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { ResponseTransformInterceptor } from './interceptor/response-transform.interceptor'
 import { AllExceptionsFilter } from './filter/all-exception.filter'
 import { SharedModule } from './shared/shared.module'
@@ -12,6 +13,8 @@ import { configuration, envFilePath } from './config'
   imports: [
     /** 配置环境变量 */
     ConfigModule.forRoot({ load: [configuration], envFilePath, isGlobal: true, cache: true }),
+    /** 连接 MySQL 数据库 */
+    TypeOrmModule.forRootAsync({ useFactory: (configService: ConfigService) => configService.get<TypeOrmModuleOptions>('database'), inject: [ConfigService] }),
     // 导入速率限制模块   ttl: 单位毫秒， 表示 ttl 秒内最多只能请求 limit 次， 避免暴力攻击
     ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]),
 
