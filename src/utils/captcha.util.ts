@@ -34,7 +34,7 @@ export class CaptchaUtil {
     // 将生成的 SVG 验证码数据编码为 base64 格式，便于在网页中展示
     const captcha = `data:image/svg+xml;base64,${Buffer.from(data).toString('base64')}`
     //使用 crypto.randomUUID() 生成一个唯一标识符，用于追踪验证码
-    const uuid = crypto.randomUUID()
+    const uuid = crypto.randomUUID().replaceAll('-', '')
     // 返回包含验证码信息的对象
     return { text, uuid, captcha }
   }
@@ -45,7 +45,7 @@ export class CaptchaUtil {
   static async createCaptcha() {
     const { data, text } = svgCaptcha.create(this._captchaConfig())
     const captcha = `data:image/svg+xml;base64,${Buffer.from(data).toString('base64')}`
-    const uuid = crypto.randomUUID()
+    const uuid = crypto.randomUUID().replaceAll('-', '')
     return { text, uuid, captcha }
   }
 }

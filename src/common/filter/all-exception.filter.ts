@@ -49,9 +49,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // console.log(JSON.stringify(exception))
 
     // 错误日志终端打印
-    // Logger.error(`${request.method.toUpperCase()} ${request.path} ${message}`)
+    Logger.error(`${request.method.toUpperCase()} ${request.path} ${message}`)
     // Logger.error(JSON.stringify(exception))
-    Logger.error(message)
 
     // console.log(`\n------------------------------ Query Params ------------------------------`)
     // Logger.error(`'查询参数': ${JSON.stringify(request.query || {})}`)
@@ -59,6 +58,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // console.log(`\n------------------------------- Body Params ------------------------------`)
     // Logger.error(`'序列参数': ${JSON.stringify(request.body || {})}`)
 
-    response.status(status).json({ code, success: false, message, timestamp: Date.now() })
+    response.status(status)
+    response.json({ code, success: false, message, timestamp: Date.now() })
   }
 }

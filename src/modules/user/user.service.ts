@@ -11,11 +11,11 @@ export class UserService {
   constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {}
 
   async create(createDto: CreateUserDto) {
-    const record = await this.findOneByUsername(createDto.username)
+    const record = await this.userRepository.findOne({ where: { username: Equal(createDto.username) } })
     if (record) throw new ApiException('该账号已存在')
     const entity = Object.assign(new CreateUserDto(), createDto) // 合并默认值并对密码进行加密处理
     entity.password = await argon2.hash(createDto.password)
-    await this.userRepository.save(createDto)
+    await this.userRepository.save(entity)
     return '添加成功'
   }
 

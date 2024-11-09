@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { LoginService } from './login.service'
-import { LoginParameterDto } from './login.dto'
+import { LoginParamsDto } from './login.dto'
 import { AllowNoToken } from '@/common'
 
 @Controller()
@@ -17,8 +17,8 @@ export class LoginController {
   /** 用户登录 */
   @Post('login')
   @AllowNoToken()
-  login(@Body() loginParams: LoginParameterDto) {
-    return loginParams
+  login(@Body() loginParams: LoginParamsDto) {
+    return this.loginService.login(loginParams)
   }
 
   /** 用户登出 */
