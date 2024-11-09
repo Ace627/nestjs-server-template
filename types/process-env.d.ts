@@ -14,5 +14,8 @@ namespace NodeJS {
     REDIS_HOST: string
     REDIS_PORT: string
     REDIS_PASSWORD: string
+
+    JWT_SECRET: string
+    JWT_ACCESS_TIMEOUT: string
   }
 }

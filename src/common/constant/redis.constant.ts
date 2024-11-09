@@ -5,4 +5,6 @@
  */
 
 /** 验证码 */
-export const CAPTCHA_IMG_KEY = 'captcha:img'
+export const CAPTCHA_IMG_KEY = 'login:captcha:timeout'
+
+export const USER_ACCESS_TOKEN_KEY = 'system:user:access:token'
