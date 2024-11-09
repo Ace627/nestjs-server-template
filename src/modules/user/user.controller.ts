@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { TableQuery } from '@/common'
 import { UserService } from './user.service'
-import { CreateUserDto } from './user.dto'
+import { CreateUserDto, UpdateUserDto } from './user.dto'
 import { UserEntity } from './user.entity'
 
 @Controller('user')
@@ -12,6 +12,12 @@ export class UserController {
   @Post('create')
   create(@Body() createDto: CreateUserDto) {
     return this.userService.create(createDto)
+  }
+
+  /** 更新单个用户的数据 */
+  @Post('update')
+  update(@Body() updateDto: UpdateUserDto) {
+    return this.userService.update(updateDto)
   }
 
   /** 删除单个用户数据 */

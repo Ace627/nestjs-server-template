@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm'
-import { CommonEntity } from '@/common'
+import { CommonEntity, GenderEnum } from '@/common'
 
 @Entity('sys_user')
 export class UserEntity extends CommonEntity {
@@ -24,7 +24,7 @@ export class UserEntity extends CommonEntity {
   @Column({ comment: '用户年龄', default: null })
   age: number
 
-  @Column({ comment: '用户性别', default: null })
+  @Column({ comment: '用户性别', default: GenderEnum.UNKNOWN })
   gender: number
 
   // 用户状态 1 正常 2 停用
