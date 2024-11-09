@@ -10,8 +10,11 @@ import argon2 from 'argon2'
 export class UserService {
   constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {}
 
+  /** 新建一条用户数据 */
   async create(createDto: CreateUserDto) {
-    const record = await this.userRepository.findOne({ where: { username: Equal(createDto.username) } })
+    console.log('createDto: ', createDto)
+    return
+    const record = await this.userRepository.findOneBy({ username: Equal(createDto.username) })
     if (record) throw new ApiException('该账号已存在')
     const entity = Object.assign(new CreateUserDto(), createDto) // 合并默认值并对密码进行加密处理
     entity.password = await argon2.hash(createDto.password)
@@ -30,7 +33,7 @@ export class UserService {
 
   /** 根据用户账号查询用户信息 登录用 */
   findOneByUsername(username: string) {
-    return this.userRepository.findOne({ where: { username: Equal(username) } })
+    return this.userRepository.findOneBy({ username: Equal(username) })
   }
 
   /** 根据 userId 查询用户信息 */

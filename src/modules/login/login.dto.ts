@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator'
 
+/** 登录所需要的参数体 */
 export class LoginParamsDto {
   @IsNotEmpty({ message: '登录账号不能为空' })
   username: string

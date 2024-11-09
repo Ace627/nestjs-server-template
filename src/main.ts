@@ -8,6 +8,7 @@ import { IpUtil } from './utils/ip.util'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
   const { SERVER_PORT, SERVER_PREFIX } = process.env
+
   // 从 NestJS 应用上下文中获取所需服务类的实例，以便使用这个实例来调用该服务中定义的方法和属性
   const sharedService = app.get(SharedService)
 
