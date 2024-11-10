@@ -6,10 +6,8 @@ export class RedisService {
   private readonly redisClient: RedisClientType
 
   constructor() {
-    const host = process.env.REDIS_HOST
-    const port = process.env.REDIS_PORT
-    const password = process.env.REDIS_PASSWORD
-    this.redisClient = createClient({ url: `redis://${host}:${port}`, password })
+    const { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD: password } = process.env
+    this.redisClient = createClient({ url: `redis://${REDIS_HOST}:${REDIS_PORT}`, password })
     this.redisClient.connect()
   }
 

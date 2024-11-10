@@ -30,12 +30,12 @@ export class JwtAuthGuard implements CanActivate {
       const redisAccessTokenKey = `${USER_ACCESS_TOKEN_KEY}:${payload.id}`
       const redisAccessToken = await this.redisService.get(redisAccessTokenKey)
       if (!redisAccessToken) throw new Error('jwt expired')
-      await this.redisService.expire(redisAccessToken, +process.env.JWT_ACCESS_TOKEN_TIMEOUT)
+      await this.redisService.expire(redisAccessToken, +process.env.JWT_ACCESS_TIMEOUT)
       request.headers['user'] = payload
       return true
     } catch (error) {
       // 处理 Jwt 异常
-      const isJwtException = ['invalid token', 'invalid algorithm', 'jwt expired', 'jwt malformed'].includes(error.message)
+      const isJwtException = ['invalid token', 'invalid algorithm', 'jwt expired', 'jwt malformed', 'invalid signature'].includes(error.message)
       if (isJwtException) throw new ApiException(`认证失败，请登录后访问`, HttpStatus.UNAUTHORIZED)
       // 其余异常处理
       throw new ApiException(error.message || '未知异常，请联系管理员')
