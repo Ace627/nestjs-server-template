@@ -10,12 +10,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = context.getResponse<Response>()
 
     // 初始化需要返回的异常信息字段
-    let status: number = HttpStatus.OK
+    let status: number = exception.status ?? HttpStatus.INTERNAL_SERVER_ERROR
     let code: number = exception.status ?? HttpStatus.INTERNAL_SERVER_ERROR
     let message = exception.message ?? exception
 
     // ApiException 类型的异常数据
     if (exception.name === 'ApiException') {
+      status = HttpStatus.OK
       code = exception.code
     }
 
