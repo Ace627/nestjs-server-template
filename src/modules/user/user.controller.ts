@@ -35,7 +35,6 @@ export class UserController {
   /** 查询用户分页列表 */
   @Get('list')
   findList(@TableQuery() queryParams: TableQueryParams<UserEntity>) {
-    console.log('queryParams: ', queryParams)
     return this.userService.findList(queryParams)
   }
 

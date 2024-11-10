@@ -44,4 +44,18 @@ export class LoginService {
     await this.redisService.set(`${USER_ACCESS_TOKEN_KEY}:${user.id}`, accessToken, +process.env.JWT_ACCESS_TIMEOUT)
     return { accessToken }
   }
+
+  /**
+   * 用户登出
+   * @param {string} token
+   */
+  async logout(token: string) {
+    try {
+      const payload = await this.jwtService.verify(token)
+      await this.redisService.del(`${USER_ACCESS_TOKEN_KEY}:${payload.id}`)
+      return `退出成功`
+    } catch (error) {
+      return `退出失败`
+    }
+  }
 }

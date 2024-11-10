@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query, Headers } from '@nestjs/common'
 import { LoginService } from './login.service'
 import { LoginParamsDto } from './login.dto'
 import { AllowNoToken } from '@/common'
@@ -24,7 +24,9 @@ export class LoginController {
   /** 用户登出 */
   @Post('logout')
   @AllowNoToken()
-  logout() {
-    return '退出成功'
+  logout(@Headers('authorization') authorization: string) {
+    if (!authorization) return '退出成功'
+    const token = authorization.split(' ')[1]
+    return this.loginService.logout(token)
   }
 }
