@@ -9,6 +9,7 @@ import { configuration, envFilePath } from './config'
 import { LoginModule } from './modules/login/login.module'
 import { UserModule } from './modules/user/user.module'
 import { JwtModule } from '@nestjs/jwt'
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { JwtModule } from '@nestjs/jwt'
     // 业务模块
     LoginModule,
     UserModule,
+    RoleModule,
   ],
 
   providers: [

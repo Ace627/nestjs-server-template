@@ -10,3 +10,9 @@ export enum GenderEnum {
   /** 女性 */
   FEMALE = 2,
 }
+
+/** Jwt 相关配置 */
+export enum AuthEnum {
+  /** Token 校验通过后挂载到 Header 的 key */
+  PAYLOAD = 'payload',
+}

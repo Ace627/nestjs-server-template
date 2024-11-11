@@ -39,7 +39,7 @@ export class LoginService {
     const valid = await argon2.verify(user.password, loginParams.password)
     if (!valid) throw new ApiException(`用户名或密码错误`)
     await this.redisService.del(captcha_key)
-    const payload = { id: user.id, username: user.username }
+    const payload: JwtPayload = { id: user.id, username: user.username }
     const accessToken = await this.jwtService.signAsync(payload)
     await this.redisService.set(`${USER_ACCESS_TOKEN_KEY}:${user.id}`, accessToken, +process.env.JWT_ACCESS_TIMEOUT)
     return { accessToken }

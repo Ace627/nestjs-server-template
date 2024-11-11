@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
-import { TableQuery } from '@/common'
+import { Body, Controller, Get, Post, Query, Headers } from '@nestjs/common'
+import { TableQuery, AuthEnum } from '@/common'
 import { UserService } from './user.service'
 import { CreateUserDto, UpdateUserDto } from './user.dto'
 import { UserEntity } from './user.entity'
@@ -10,13 +10,16 @@ export class UserController {
 
   /** 新建一条用户数据 */
   @Post('create')
-  create(@Body() createDto: CreateUserDto) {
+  create(@Body() createDto: CreateUserDto, @Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
+    createDto.createBy = payload.username ?? 'admin'
+    createDto.updateBy = payload.username ?? 'admin'
     return this.userService.create(createDto)
   }
 
   /** 更新单个用户的数据 */
   @Post('update')
-  update(@Body() updateDto: UpdateUserDto) {
+  update(@Body() updateDto: UpdateUserDto, @Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
+    updateDto.updateBy = payload.username
     return this.userService.update(updateDto)
   }
 

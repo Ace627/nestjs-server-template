@@ -30,6 +30,9 @@ export class CreateUserDto {
   createBy: string
 
   @IsOptional()
+  updateBy: string
+
+  @IsOptional()
   @IsPhoneNumber('CN', { message: '手机号码格式错误' }) // CN 表示中国
   phone: string
 }
@@ -38,9 +41,6 @@ export class CreateUserDto {
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsNotEmpty({ message: '用户 id 不可为空' })
   id: string
-
-  @IsOptional()
-  updateBy: string
 
   @Exclude()
   createBy: string

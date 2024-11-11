@@ -3,7 +3,7 @@ export { TableQuery } from './decorator/table-query.decorator'
 
 export { CommonEntity } from './entities/common.entity'
 
-export { GenderEnum } from './enums'
+export { GenderEnum, AuthEnum } from './enums'
 
 export { ApiException } from './exception/api.exception'
 

@@ -3,10 +3,10 @@ import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { RedisService } from '@/shared/redis.service'
 import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
-import { Observable } from 'rxjs'
 import { ApiException } from '../exception/api.exception'
 import { USER_ACCESS_TOKEN_KEY } from '../constant/redis.constant'
 import { ALLOW_NO_TOKEN } from '../constant/decorator.constant'
+import { AuthEnum } from '../enums'
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -31,7 +31,7 @@ export class JwtAuthGuard implements CanActivate {
       const redisAccessToken = await this.redisService.get(redisAccessTokenKey)
       if (!redisAccessToken) throw new Error('jwt expired')
       await this.redisService.expire(redisAccessToken, +process.env.JWT_ACCESS_TIMEOUT)
-      request.headers['user'] = payload
+      request.headers[AuthEnum.PAYLOAD] = payload
       return true
     } catch (error) {
       // 处理 Jwt 异常

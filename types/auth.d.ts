@@ -10,3 +10,12 @@ interface Captcha {
 
 /** 验证码类型 */
 type CaptchaType = 'string' | 'math'
+
+interface JwtPayload {
+  /** 用户 id */
+  id: string
+  /** 用户账号 */
+  username: string
+  /** 签名签发时间戳 */
+  iat?: number
+}
