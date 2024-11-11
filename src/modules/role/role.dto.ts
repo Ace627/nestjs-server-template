@@ -17,9 +17,12 @@ export class CreateRoleDto {
 
   @IsOptional()
   updateBy: string
+
+  @IsOptional()
+  status: number
 }
 
-export class UpdateRoleDto extends PartialType(CreateRoleDto) {
+export class UpdateRoleDto extends CreateRoleDto {
   @IsNotEmpty({ message: '角色 id 不可为空' })
   id: string
 

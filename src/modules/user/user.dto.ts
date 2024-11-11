@@ -32,6 +32,9 @@ export class CreateUserDto {
   updateBy: string
 
   @IsOptional()
+  status: number
+
+  @IsOptional()
   @IsPhoneNumber('CN', { message: '手机号码格式错误' }) // CN 表示中国
   phone: string
 
