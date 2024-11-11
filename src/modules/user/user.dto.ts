@@ -1,7 +1,6 @@
-import { GenderEnum } from '@/common'
 import { PartialType } from '@nestjs/mapped-types'
 import { Exclude } from 'class-transformer'
-import { IsNotEmpty, IsOptional, IsPhoneNumber } from 'class-validator'
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsPhoneNumber } from 'class-validator'
 
 /** 新建用户所需的参数体 */
 export class CreateUserDto {
@@ -35,10 +34,14 @@ export class CreateUserDto {
   @IsOptional()
   @IsPhoneNumber('CN', { message: '手机号码格式错误' }) // CN 表示中国
   phone: string
+
+  @IsArray({ message: 'roleIds 必须为数组类型' })
+  @ArrayNotEmpty({ message: '角色组不可为空' })
+  roleIds: string[]
 }
 
 /** 更新用户所需的参数体 */
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateUserDto extends CreateUserDto {
   @IsNotEmpty({ message: '用户 id 不可为空' })
   id: string
 
@@ -46,6 +49,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   createBy: string
 
   @Exclude()
+  @IsOptional()
   username: string
 
   @Exclude()

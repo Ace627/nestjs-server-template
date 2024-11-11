@@ -22,6 +22,8 @@ export class UserService {
 
   /** 更新单个用户的数据 */
   async update(updateDto: UpdateUserDto) {
+    console.log('updateDto: ', updateDto)
+    return
     await this.userRepository.save(updateDto)
     return '更新成功'
   }

@@ -30,7 +30,7 @@ export class JwtAuthGuard implements CanActivate {
       const redisAccessTokenKey = `${USER_ACCESS_TOKEN_KEY}:${payload.id}`
       const redisAccessToken = await this.redisService.get(redisAccessTokenKey)
       if (!redisAccessToken) throw new Error('jwt expired')
-      await this.redisService.expire(redisAccessToken, +process.env.JWT_ACCESS_TIMEOUT)
+      await this.redisService.expire(redisAccessTokenKey, +process.env.JWT_ACCESS_TIMEOUT)
       request.headers[AuthEnum.PAYLOAD] = payload
       return true
     } catch (error) {
