@@ -53,7 +53,7 @@ export class RoleService {
     if (name) where.name = Like(`%${name}%`)
     if (desc) where.desc = Like(`%${desc}%`)
     if (status) where.status = Equal(+status)
-    const [records, total] = await this.roleRepository.findAndCount({ where, skip, take })
+    const [records, total] = await this.roleRepository.findAndCount({ where, skip, take, order: { createTime: 'ASC' } })
     return { total, records }
   }
 }

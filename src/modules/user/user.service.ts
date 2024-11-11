@@ -61,7 +61,7 @@ export class UserService {
     if (nickname) where.nickname = Like(`%${nickname}%`)
     if (realname) where.realname = Like(`%${realname}%`)
     if (phone) where.phone = Like(`%${phone}%`)
-    const [records, total] = await this.userRepository.findAndCount({ where, skip, take })
+    const [records, total] = await this.userRepository.findAndCount({ where, skip, take, order: { createTime: 'ASC' } })
     /* ---------------------------------- 不返回密码 --------------------------------- */
     records.forEach((item) => delete item.password)
     return { total, records }
