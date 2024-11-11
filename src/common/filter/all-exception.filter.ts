@@ -40,6 +40,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // NotFoundException 请求节流类型的异常数据
     if (exception.name === 'NotFoundException') {
       if (exception.message.includes('favicon.ico')) return // 不处理 favicon.ico 找不到的异常
+      message = '请求的资源未找到，请确认 URL 是否正确'
     }
 
     // 数据库连接异常
