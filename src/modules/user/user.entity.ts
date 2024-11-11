@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { CommonEntity, GenderEnum } from '@/common'
+import { RoleEntity } from '../role/role.entity'
 
 @Entity('sys_user')
 export class UserEntity extends CommonEntity {
@@ -27,7 +28,7 @@ export class UserEntity extends CommonEntity {
   @Column({ comment: '用户性别', default: GenderEnum.UNKNOWN })
   gender: number
 
-  // 用户状态 1 正常 2 停用
-  @Column({ comment: '用户状态', default: 1 })
-  status: number
+  @ManyToMany(() => RoleEntity, (role) => role.users)
+  @JoinTable({ name: 'sys_user_role', joinColumns: [{ name: 'userId' }], inverseJoinColumns: [{ name: 'roleId' }] })
+  roles: RoleEntity[]
 }

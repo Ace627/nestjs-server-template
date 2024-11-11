@@ -14,5 +14,8 @@ __dirname
 __filename
 ```
 
+## 参考文献
+
+- [可能是全网最好的 RBAC 权限管理教程](https://www.bilibili.com/video/BV1cv411g7k2)
 - [NestJS 中文文档](http://nestjs.inode.club)
 - [TypeORM 中文文档](https://www.typeorm.org)

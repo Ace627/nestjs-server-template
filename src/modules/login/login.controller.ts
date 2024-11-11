@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, Headers } from '@nestjs/common'
 import { LoginService } from './login.service'
 import { LoginParamsDto } from './login.dto'
-import { AllowNoToken } from '@/common'
+import { AllowNoToken, AuthEnum } from '@/common'
 
 @Controller()
 export class LoginController {
@@ -19,6 +19,12 @@ export class LoginController {
   @AllowNoToken()
   login(@Body() loginParams: LoginParamsDto) {
     return this.loginService.login(loginParams)
+  }
+
+  /** 获取个人信息 */
+  @Get('getInfo')
+  getInfo(@Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
+    return this.loginService.getInfo(payload.id)
   }
 
   /** 用户登出 */

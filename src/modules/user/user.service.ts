@@ -1,14 +1,18 @@
 import { HttpStatus, Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './user.entity'
-import { Equal, FindOptionsWhere, Like, Repository } from 'typeorm'
+import { EntityManager, Equal, FindOptionsWhere, In, Like, Repository } from 'typeorm'
 import { ApiException } from '@/common'
 import { CreateUserDto, UpdateUserDto } from './user.dto'
 import argon2 from 'argon2'
+import { RoleEntity } from '../role/role.entity'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {}
+  constructor(
+    @InjectEntityManager() private readonly entityManager: EntityManager,
+    @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
   /** 新建一条用户数据 */
   async create(createDto: CreateUserDto) {
@@ -22,9 +26,8 @@ export class UserService {
 
   /** 更新单个用户的数据 */
   async update(updateDto: UpdateUserDto) {
-    console.log('updateDto: ', updateDto)
-    return
-    await this.userRepository.save(updateDto)
+    const roles = await this.entityManager.findBy(RoleEntity, { id: In(updateDto.roleIds), status: Equal(1) })
+    await this.userRepository.save({ ...updateDto, roles })
     return '更新成功'
   }
 
@@ -44,7 +47,9 @@ export class UserService {
 
   /** 根据 userId 查询用户信息 */
   async findOneById(userId: string) {
-    return this.userRepository.findOneBy({ id: Equal(userId) })
+    const user = await this.entityManager.findOne(UserEntity, { where: { id: Equal(userId) }, relations: { roles: true } })
+    const roleIds = user.roles.map((role) => role.id)
+    return { ...user, roleIds }
   }
 
   /** 查询用户不分页列表 */

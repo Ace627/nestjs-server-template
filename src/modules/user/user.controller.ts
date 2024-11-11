@@ -46,4 +46,10 @@ export class UserController {
   findAll() {
     return this.userService.findAll()
   }
+
+  /** 给用户分配角色 */
+  @Post('/roles')
+  updataRoles() {
+    console.log(111111111)
+  }
 }

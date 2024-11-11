@@ -5,6 +5,10 @@ export abstract class CommonEntity {
   @PrimaryGeneratedColumn('uuid', { comment: '主键' })
   id: string
 
+  // 数据状态 1 正常 0 停用
+  @Column({ comment: '用户状态', default: 1 })
+  status: number
+
   @Column({ comment: '显示顺序', default: 1 })
   order: number
 
@@ -13,6 +17,9 @@ export abstract class CommonEntity {
 
   @Column({ comment: '更新者', name: 'update_by', default: null })
   updateBy: string
+
+  @Column({ comment: '备注', default: null })
+  remark: string
 
   /** 特殊列，自动为实体插入日期。无需设置此列，该值将自动设置 */
   @CreateDateColumn({ name: 'create_time', comment: '创建时间', update: false, type: 'timestamp' })

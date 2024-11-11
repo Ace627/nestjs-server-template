@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types'
 import { Exclude } from 'class-transformer'
 import { ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsPhoneNumber } from 'class-validator'
+import { RoleEntity } from '../role/role.entity'
 
 /** 新建用户所需的参数体 */
 export class CreateUserDto {

@@ -20,6 +20,7 @@ export class RoleService {
 
   /** 更新单个角色的数据 */
   async update(updateDto: UpdateRoleDto) {
+    console.log('updateDto: ', updateDto)
     await this.roleRepository.save(updateDto)
     return '更新成功'
   }
@@ -46,12 +47,12 @@ export class RoleService {
 
   /** 查询角色分页列表 */
   async findList(queryParams: TableQueryParams<RoleEntity>) {
-    const { skip, take, code, name, desc, status } = queryParams
+    const { skip, take, code, name, remark, status } = queryParams
     /* -------------------------------- 准备模糊查询参数 -------------------------------- */
     const where: FindOptionsWhere<RoleEntity> = {}
     if (code) where.code = Like(`%${code}%`)
     if (name) where.name = Like(`%${name}%`)
-    if (desc) where.desc = Like(`%${desc}%`)
+    if (remark) where.remark = Like(`%${remark}%`)
     if (status) where.status = Equal(+status)
     const [records, total] = await this.roleRepository.findAndCount({ where, skip, take, order: { createTime: 'ASC' } })
     return { total, records }

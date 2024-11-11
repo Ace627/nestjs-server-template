@@ -46,6 +46,16 @@ export class LoginService {
   }
 
   /**
+   * 获取个人信息
+   * @param {string} userId 用户 ID 标识
+   */
+  async getInfo(userId: string) {
+    const user = await this.userService.findOneById(userId)
+    const roles = user.roles.map((role) => role.code)
+    return { user, roles }
+  }
+
+  /**
    * 用户登出
    * @param {string} token
    */

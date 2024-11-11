@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types'
 import { Exclude } from 'class-transformer'
 import { IsNotEmpty, IsOptional } from 'class-validator'
 
@@ -10,7 +9,7 @@ export class CreateRoleDto {
   code: string
 
   @IsOptional()
-  desc: string
+  remark: string
 
   @IsOptional()
   createBy: string
