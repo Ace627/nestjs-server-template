@@ -3,8 +3,11 @@ import { Column, Entity } from 'typeorm'
 
 @Entity('sys_menu')
 export class MenuEntity extends CommonEntity {
-  @Column({ comment: '上级菜单', default: null })
+  @Column({ comment: '上级菜单', default: '0' })
   parentId: string
+
+  @Column({ comment: '路由地址', default: null })
+  path: string
 
   @Column({ comment: '组件路径', default: null })
   component: string

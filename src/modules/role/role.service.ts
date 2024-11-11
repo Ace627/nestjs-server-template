@@ -20,7 +20,6 @@ export class RoleService {
 
   /** 更新单个角色的数据 */
   async update(updateDto: UpdateRoleDto) {
-    console.log('updateDto: ', updateDto)
     await this.roleRepository.save(updateDto)
     return '更新成功'
   }
@@ -41,7 +40,7 @@ export class RoleService {
 
   /** 查询角色不分页列表 */
   async findAll() {
-    const records = await this.roleRepository.find({ where: { status: Equal(1) } })
+    const records = await this.roleRepository.find({ where: { status: Equal(1) }, order: { createTime: 'ASC' } })
     return records
   }
 
