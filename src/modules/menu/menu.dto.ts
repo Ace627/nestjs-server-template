@@ -24,6 +24,9 @@ export class CreateMenuDto {
   order: number
 
   @IsOptional()
+  status: number
+
+  @IsOptional()
   component: string
 
   @IsOptional()
@@ -39,4 +42,12 @@ export class UpdateMenuDto extends CreateMenuDto {
 
   @Exclude()
   createBy: string
+}
+
+export class FindTreeListDto {
+  @IsOptional()
+  title: string
+
+  @IsOptional()
+  status: number
 }

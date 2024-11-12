@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm'
-import { EntityManager, Equal, FindOptionsWhere, Not, Repository } from 'typeorm'
-import { CreateMenuDto, UpdateMenuDto } from './menu.dto'
+import { EntityManager, Equal, FindOptionsWhere, Not, Like, Repository } from 'typeorm'
+import { CreateMenuDto, FindTreeListDto, UpdateMenuDto } from './menu.dto'
 import { MenuEntity } from './menu.entiy'
 import { ApiException } from '@/common'
 import { transformListToTree } from '@/utils/tree-helper'
@@ -50,8 +50,10 @@ export class MenuService {
   /**
    * 查询树状菜单列表
    */
-  async findTreeList() {
+  async findTreeList(queryParams: FindTreeListDto) {
     const where: FindOptionsWhere<MenuEntity> = {} // 查询条件
+    if (queryParams.status) where.status = Equal(+queryParams.status)
+    if (queryParams.title) where.title = Like(`%${queryParams.title}%`)
     const records = await this.menuRepository.find({ where, order: { order: 'ASC' } })
     return transformListToTree(records)
   }
@@ -60,7 +62,6 @@ export class MenuService {
    * 根据 ID 更新单个菜单
    */
   async update(updateDto: UpdateMenuDto) {
-    console.log('updateDto: ', updateDto)
     await this.menuRepository.save(updateDto)
     return '更新成功'
   }

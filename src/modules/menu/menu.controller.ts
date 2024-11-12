@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Query, Body, Headers } from '@nestjs/common'
 import { MenuService } from './menu.service'
-import { CreateMenuDto, UpdateMenuDto } from './menu.dto'
+import { CreateMenuDto, FindTreeListDto, UpdateMenuDto } from './menu.dto'
 import { AuthEnum } from '@/common'
 
 @Controller('system/menu')
@@ -38,8 +38,8 @@ export class MenuController {
    * 查询树状菜单列表
    */
   @Get('findTreeList')
-  findTreeList() {
-    return this.menuService.findTreeList()
+  findTreeList(@Query() queryParams: FindTreeListDto) {
+    return this.menuService.findTreeList(queryParams)
   }
 
   /**
