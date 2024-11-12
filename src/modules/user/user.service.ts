@@ -41,6 +41,12 @@ export class UserService {
     return '删除成功'
   }
 
+  /** 根据 userId 查询用户的所有角色 */
+  async findRoles(userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: Equal(userId) }, relations: { roles: true } })
+    return user.roles
+  }
+
   /** 根据用户账号查询用户信息 登录用 */
   findOneByUsername(username: string) {
     return this.userRepository.findOneBy({ username: Equal(username), status: Equal(1) })

@@ -47,9 +47,9 @@ export class UserController {
     return this.userService.findAll()
   }
 
-  /** 给用户分配角色 */
-  @Post('/roles')
-  updataRoles() {
-    console.log(111111111)
+  /** 根据 userId 查询用户的所有角色 */
+  @Get('roles')
+  findRoles(@Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
+    return this.userService.findRoles(payload.id)
   }
 }
