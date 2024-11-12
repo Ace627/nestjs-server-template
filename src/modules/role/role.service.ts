@@ -7,6 +7,7 @@ import { ApiException } from '@/common'
 import { MenuEntity } from '../menu/menu.entiy'
 import { transformListToTree } from '@/utils/tree-helper'
 import { firstToUpper } from '@/utils'
+import { unionBy } from 'lodash'
 
 @Injectable()
 export class RoleService {
@@ -88,19 +89,18 @@ export class RoleService {
   async findAllMenusByRoleIds(isAdmin: boolean, roleIds: string[]) {
     let records: MenuEntity[] = []
     if (isAdmin) {
-      records = await this.menuRepository.find({ order: { order: 'ASC' } })
+      records = await this.menuRepository.find()
     } else {
-      records = await this.menuRepository
-        .createQueryBuilder('menu')
-        .leftJoin('menu.roles', 'role')
-        .where('role.id IN (:...roleIds)', { roleIds })
-        .orderBy('menu.order', 'ASC')
-        .getMany()
+      for (const roleId of roleIds) {
+        const role = await this.roleRepository.findOne({ where: { id: Equal(roleId) }, relations: { menus: true } })
+        records.push(...role.menus)
+      }
     }
-    const uniqueRecords = Array.from(new Set(records.map((record) => record.id))).map((id) => records.find((record) => record.id === id))
-    const enableRecords = uniqueRecords.filter((item) => item.status === 1)
-    const menus = enableRecords.filter((v) => v.type === 'M' || v.type === 'C')
-    const permissions = enableRecords.filter((v) => v.type === 'F')
+    const uniqueRecords = unionBy(records, 'id') // 去重
+    const enableRecords = uniqueRecords.filter((item) => item.status === 1) // 筛选正常菜单
+    const sortRecords = enableRecords.sort((a, b) => a.order - b.order) // 菜单升序排序
+    const menus = sortRecords.filter((v) => v.type === 'M' || v.type === 'C')
+    const permissions = sortRecords.filter((v) => v.type === 'F')
     return { menus, permissions }
   }
 
