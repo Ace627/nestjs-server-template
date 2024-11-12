@@ -60,7 +60,20 @@ export class MenuService {
    * 根据 ID 更新单个菜单
    */
   async update(updateDto: UpdateMenuDto) {
+    console.log('updateDto: ', updateDto)
     await this.menuRepository.save(updateDto)
     return '更新成功'
+  }
+
+  /**
+   * 根据 ID 删除单个菜单
+   */
+  async deleteOneById(menuId: string) {
+    const record = await this.menuRepository.findOneBy({ id: Equal(menuId) })
+    if (!record) throw new ApiException('菜单不存在或已被删除')
+    const children = await this.menuRepository.findBy({ parentId: Equal(menuId) })
+    if (children && children.length) throw new ApiException('该菜单下还存在其它菜单，无法删除')
+    await this.menuRepository.delete(menuId)
+    return '删除成功'
   }
 }

@@ -18,6 +18,15 @@ export class MenuController {
   }
 
   /**
+   * 根据 ID 更新单个菜单
+   */
+  @Post('update')
+  update(@Body() updateDto: UpdateMenuDto, @Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
+    updateDto.updateBy = payload.username
+    return this.menuService.update(updateDto)
+  }
+
+  /**
    * 查询父级菜单下拉列表
    */
   @Get('findParentList')
@@ -42,11 +51,10 @@ export class MenuController {
   }
 
   /**
-   * 根据 ID 更新单个菜单
+   * 根据 ID 删除单个菜单
    */
-  @Post('update')
-  update(@Body() updateDto: UpdateMenuDto, @Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
-    updateDto.updateBy = payload.username
-    return this.menuService.update(updateDto)
+  @Get('delete')
+  deleteOneById(@Query('menuId') menuId: string) {
+    return this.menuService.deleteOneById(menuId)
   }
 }
