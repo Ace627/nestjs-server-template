@@ -1,6 +1,7 @@
 import { CommonEntity } from '@/common'
-import { Column, Entity, ManyToMany } from 'typeorm'
+import { Column, Entity, ManyToMany, JoinTable } from 'typeorm'
 import { UserEntity } from '../user/user.entity'
+import { MenuEntity } from '../menu/menu.entiy'
 
 @Entity('sys_role')
 export class RoleEntity extends CommonEntity {
@@ -12,4 +13,8 @@ export class RoleEntity extends CommonEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.roles)
   users: UserEntity[]
+
+  @ManyToMany(() => MenuEntity, (menu) => menu.roles)
+  @JoinTable({ name: 'sys_role_menu', joinColumns: [{ name: 'roleId' }], inverseJoinColumns: [{ name: 'menuId' }] })
+  menus: RoleEntity[]
 }

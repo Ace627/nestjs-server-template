@@ -1,5 +1,6 @@
 import { CommonEntity } from '@/common'
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, ManyToMany } from 'typeorm'
+import { RoleEntity } from '../role/role.entity'
 
 @Entity('sys_menu')
 export class MenuEntity extends CommonEntity {
@@ -29,4 +30,7 @@ export class MenuEntity extends CommonEntity {
 
   @Column({ comment: '权限字符串', default: null })
   permission: string
+
+  @ManyToMany(() => RoleEntity, (role) => role.menus)
+  roles: RoleEntity[]
 }
