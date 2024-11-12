@@ -2,7 +2,7 @@ import argon2 from 'argon2'
 import { omit } from 'lodash'
 import { ApiException } from '@/common'
 import { JwtService } from '@nestjs/jwt'
-import { Injectable } from '@nestjs/common'
+import { HttpCode, HttpStatus, Injectable } from '@nestjs/common'
 import { LoginParamsDto } from './login.dto'
 import { UserService } from '../user/user.service'
 import { CaptchaUtil } from '@/utils/captcha.util'
@@ -53,12 +53,15 @@ export class LoginService {
    * @param {string} userId 用户 ID 标识
    */
   async getInfo(userId: string) {
-    const user = await this.userService.findOneById(userId)
-    const isAdmin = user.roles.some((role) => role.code === 'admin')
-    const roleIds = user.roleIds
-    const roles = user.roles.map((role) => role.code)
-    const userInfo = omit(user, ['roleIds', 'roles'])
-    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(isAdmin, roleIds)
+    // 根据 ID 获取单个用户
+    const userInfo = await this.userService.findOneById(userId)
+    if (userInfo.status === 0) throw new ApiException('您的账号已被停用，请联系管理员', HttpStatus.FORBIDDEN)
+    // 根据 ID 查询用户角色
+    const userRoles = await this.userService.findRoles(userId)
+    const isAdmin = userRoles.some((role) => role.code === 'admin')
+    const roleIds = userRoles.map((role) => role.id)
+    const roles = userRoles.map((role) => role.code)
+    const menuInfo = await this.roleSerivce.findMenusByRoleIds(isAdmin, roleIds)
     const permissions = menuInfo.permissions.map((v) => v.permission)
     return { userInfo, roles, permissions }
   }
@@ -67,11 +70,13 @@ export class LoginService {
    * 获取用户路由信息
    */
   async getRoutes(userId: string) {
-    const user = await this.userService.findOneById(userId)
-    const isAdmin = user.roles.some((role) => role.code === 'admin')
-    const roleIds = user.roles.map((role) => role.id)
+    // 根据 ID 查询用户角色
+    const userRoles = await this.userService.findRoles(userId)
+    const isAdmin = userRoles.some((role) => role.code === 'admin')
+    const roleIds = userRoles.map((role) => role.id)
+    // 不是管理员 也没有角色 那就什么都看不到呗
     if (!isAdmin && !roleIds.length) return []
-    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(isAdmin, roleIds)
+    const menuInfo = await this.roleSerivce.findMenusByRoleIds(isAdmin, roleIds)
     const routes = this.roleSerivce.generateRoutes(menuInfo.menus)
     return routes
   }

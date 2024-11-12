@@ -7,7 +7,7 @@ import { ApiException } from '@/common'
 import { MenuEntity } from '../menu/menu.entiy'
 import { transformListToTree } from '@/utils/tree-helper'
 import { firstToUpper } from '@/utils'
-import { unionBy } from 'lodash'
+import { flatMapDeep, unionBy } from 'lodash'
 
 @Injectable()
 export class RoleService {
@@ -83,24 +83,19 @@ export class RoleService {
     return this.entityManager.findBy(MenuEntity, { id: In(menuIds), status: Equal(1) })
   }
 
-  /**
-   * 根据角色 id 数组查询拥有的所有菜单并去重
-   */
-  async findAllMenusByRoleIds(isAdmin: boolean, roleIds: string[]) {
+  /** 根据角色 id 数组查询拥有的所有菜单 */
+  async findMenusByRoleIds(isAdmin: boolean, roleIds: string[]) {
     let records: MenuEntity[] = []
     if (isAdmin) {
       records = await this.menuRepository.find()
     } else {
-      for (const roleId of roleIds) {
-        const role = await this.roleRepository.findOne({ where: { id: Equal(roleId) }, relations: { menus: true } })
-        records.push(...role.menus)
-      }
+      const roles = await this.roleRepository.find({ where: { status: Equal(1), id: In(roleIds) }, relations: { menus: true } })
+      records = flatMapDeep(roles.map((role) => role.menus))
     }
     const uniqueRecords = unionBy(records, 'id') // 去重
-    const enableRecords = uniqueRecords.filter((item) => item.status === 1) // 筛选正常菜单
-    const sortRecords = enableRecords.sort((a, b) => a.order - b.order) // 菜单升序排序
-    const menus = sortRecords.filter((v) => v.type === 'M' || v.type === 'C')
-    const permissions = sortRecords.filter((v) => v.type === 'F')
+    const sortRecords = uniqueRecords.sort((a, b) => a.order - b.order) // 菜单升序排序
+    const menus = sortRecords.filter((v) => v.type === 'M' || v.type === 'C') // 目录、菜单
+    const permissions = sortRecords.filter((v) => v.type === 'F') // 按钮权限
     return { menus, permissions }
   }
 

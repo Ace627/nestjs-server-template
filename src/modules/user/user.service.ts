@@ -61,8 +61,8 @@ export class UserService {
 
   /** 根据 userId 查询用户信息 */
   async findOneById(userId: string) {
-    const user = await this.entityManager.findOne(UserEntity, { where: { id: Equal(userId) }, relations: { roles: true } })
-    const roleIds = user.roles.map((role) => role.id)
+    const user = await this.entityManager.findOne(UserEntity, { where: { id: Equal(userId) } })
+    const roleIds = (await this.findRoles(userId)).map((role) => role.id) // 为了用户操作框的角色回显
     return { ...user, roleIds }
   }
 

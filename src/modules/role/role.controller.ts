@@ -47,9 +47,7 @@ export class RoleController {
     return this.roleService.findAll()
   }
 
-  /**
-   * 为角色分配权限菜单
-   */
+  /** 为角色分配权限菜单 */
   @Post('authPermission')
   authPermission(@Body() authDto: AuthPermissionDto) {
     return this.roleService.authPermission(authDto)
