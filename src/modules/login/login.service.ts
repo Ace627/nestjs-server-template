@@ -8,12 +8,14 @@ import { UserService } from '../user/user.service'
 import { CaptchaUtil } from '@/utils/captcha.util'
 import { RedisService } from '@/shared/redis.service'
 import { CAPTCHA_IMG_KEY, USER_ACCESS_TOKEN_KEY } from '@/common/constant/redis.constant'
+import { RoleService } from '../role/role.service'
 
 @Injectable()
 export class LoginService {
   constructor(
     private readonly redisService: RedisService,
     private readonly userService: UserService,
+    private readonly roleSerivce: RoleService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -52,9 +54,12 @@ export class LoginService {
    */
   async getInfo(userId: string) {
     const user = await this.userService.findOneById(userId)
+    const roleIds = user.roleIds
     const roles = user.roles.map((role) => role.code)
     const userInfo = omit(user, ['roleIds', 'roles'])
-    return { userInfo, roles }
+    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(roleIds)
+    const permissions = menuInfo.permissions.map((v) => v.permission)
+    return { userInfo, roles, permissions }
   }
 
   /**

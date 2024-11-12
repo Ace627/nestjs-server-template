@@ -11,6 +11,7 @@ export class RoleService {
   constructor(
     @InjectEntityManager() private readonly entityManager: EntityManager,
     @InjectRepository(RoleEntity) private readonly roleRepository: Repository<RoleEntity>,
+    @InjectRepository(MenuEntity) private readonly menuRepository: Repository<MenuEntity>,
   ) {}
 
   /** 新建一条角色数据 */
@@ -77,5 +78,16 @@ export class RoleService {
    */
   async findMenuListByMenuIds(menuIds: string[]) {
     return this.entityManager.findBy(MenuEntity, { id: In(menuIds), status: Equal(1) })
+  }
+
+  /**
+   * 根据角色 id 数组查询拥有的所有菜单并去重
+   */
+  async findAllMenusByRoleIds(roleIds: string[]) {
+    const records = await this.menuRepository.createQueryBuilder('menu').leftJoin('menu.roles', 'role').where('role.id IN (:...roleIds)', { roleIds }).getMany()
+    const uniqueRecords = Array.from(new Set(records.map((record) => record.id))).map((id) => records.find((record) => record.id === id))
+    const menus = uniqueRecords.filter((v) => v.type === 'M' || v.type === 'C')
+    const permissions = uniqueRecords.filter((v) => v.type === 'F')
+    return { menus, permissions }
   }
 }
