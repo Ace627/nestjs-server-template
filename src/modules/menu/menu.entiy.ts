@@ -24,6 +24,9 @@ export class MenuEntity extends CommonEntity {
   @Column({ comment: '菜单是否可见', default: 1 })
   visible: number
 
+  @Column({ comment: '是否外链', default: 0 })
+  frame: number
+
   @Column({ comment: '权限字符串', default: null })
   permission: string
 }
