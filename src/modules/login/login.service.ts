@@ -19,20 +19,14 @@ export class LoginService {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * @description 获取登录验证码
-   * @param {CaptchaType} type string 图形验证码 math 算数验证码
-   */
+  /** 获取登录验证码 */
   async getCaptcha(type: CaptchaType) {
     const { text, captcha, uuid } = type === 'math' ? await CaptchaUtil.createMathCaptcha() : await CaptchaUtil.createCaptcha()
     await this.redisService.set(`${CAPTCHA_IMG_KEY}:${uuid}`, text, 60)
     return { uuid, captcha }
   }
 
-  /**
-   * @description 用户登录
-   * @param {LoginParamsDto} loginParams 登录所需要的参数体
-   */
+  /** 用户登录 */
   async login(loginParams: LoginParamsDto) {
     const captchaKey = `${CAPTCHA_IMG_KEY}:${loginParams.uuid}`
     const text = await this.redisService.get(captchaKey)
@@ -48,10 +42,7 @@ export class LoginService {
     return { accessToken }
   }
 
-  /**
-   * 获取个人信息
-   * @param {string} userId 用户 ID 标识
-   */
+  /** 获取个人信息 */
   async getInfo(userId: string) {
     // 根据 ID 获取单个用户
     const userInfo = await this.userService.findOneById(userId)
@@ -66,9 +57,7 @@ export class LoginService {
     return { userInfo, roles, permissions }
   }
 
-  /**
-   * 获取用户路由信息
-   */
+  /** 获取用户路由信息 */
   async getRoutes(userId: string) {
     // 根据 ID 查询用户角色
     const userRoles = await this.userService.findRoles(userId)
@@ -81,10 +70,7 @@ export class LoginService {
     return routes
   }
 
-  /**
-   * 用户登出
-   * @param {string} token
-   */
+  /** 用户登出 */
   async logout(token: string) {
     try {
       const payload = await this.jwtService.verify(token)
