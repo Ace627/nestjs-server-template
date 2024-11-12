@@ -16,5 +16,5 @@ export class RoleEntity extends CommonEntity {
 
   @ManyToMany(() => MenuEntity, (menu) => menu.roles)
   @JoinTable({ name: 'sys_role_menu', joinColumns: [{ name: 'roleId' }], inverseJoinColumns: [{ name: 'menuId' }] })
-  menus: RoleEntity[]
+  menus: MenuEntity[]
 }

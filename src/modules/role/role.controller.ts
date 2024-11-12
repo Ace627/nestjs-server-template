@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Query, Body, Headers } from '@nestjs/common'
 import { RoleService } from './role.service'
-import { CreateRoleDto, UpdateRoleDto } from './role.dto'
+import { AuthPermissionDto, CreateRoleDto, UpdateRoleDto } from './role.dto'
 import { AuthEnum, TableQuery } from '@/common'
 import { RoleEntity } from './role.entity'
 
@@ -45,5 +45,13 @@ export class RoleController {
   @Get('list/all')
   findAll() {
     return this.roleService.findAll()
+  }
+
+  /**
+   * 为角色分配权限菜单
+   */
+  @Post('authPermission')
+  authPermission(@Body() authDto: AuthPermissionDto) {
+    return this.roleService.authPermission(authDto)
   }
 }

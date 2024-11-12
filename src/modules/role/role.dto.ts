@@ -28,3 +28,11 @@ export class UpdateRoleDto extends CreateRoleDto {
   @Exclude()
   createBy: string
 }
+
+export class AuthPermissionDto {
+  @IsNotEmpty({ message: '参数 $property 不可为空' })
+  roleId: string
+
+  @IsNotEmpty({ message: '参数 $property 不可为空' })
+  menuIds: string[]
+}

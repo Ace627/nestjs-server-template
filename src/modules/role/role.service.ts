@@ -1,13 +1,17 @@
 import { HttpStatus, Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm'
 import { RoleEntity } from './role.entity'
-import { Equal, FindOptionsWhere, Like, Repository } from 'typeorm'
-import { CreateRoleDto, UpdateRoleDto } from './role.dto'
+import { EntityManager, Equal, FindOptionsWhere, In, Like, Repository } from 'typeorm'
+import { AuthPermissionDto, CreateRoleDto, UpdateRoleDto } from './role.dto'
 import { ApiException } from '@/common'
+import { MenuEntity } from '../menu/menu.entiy'
 
 @Injectable()
 export class RoleService {
-  constructor(@InjectRepository(RoleEntity) private readonly roleRepository: Repository<RoleEntity>) {}
+  constructor(
+    @InjectEntityManager() private readonly entityManager: EntityManager,
+    @InjectRepository(RoleEntity) private readonly roleRepository: Repository<RoleEntity>,
+  ) {}
 
   /** 新建一条角色数据 */
   async create(createDto: CreateRoleDto) {
@@ -35,7 +39,7 @@ export class RoleService {
 
   /** 根据 roleId 查询角色信息 */
   async findOneById(roleId: string) {
-    return this.roleRepository.findOneBy({ id: Equal(roleId) })
+    return this.roleRepository.findOne({ where: { id: Equal(roleId) }, relations: { menus: true } })
   }
 
   /** 查询角色不分页列表 */
@@ -55,5 +59,23 @@ export class RoleService {
     if (status) where.status = Equal(+status)
     const [records, total] = await this.roleRepository.findAndCount({ where, skip, take, order: { createTime: 'ASC' } })
     return { total, records }
+  }
+
+  /**
+   * 为角色分配权限菜单
+   */
+  async authPermission(authDto: AuthPermissionDto) {
+    const menus = await this.findMenuListByMenuIds(authDto.menuIds)
+    const role = await this.roleRepository.findOneBy({ id: Equal(authDto.roleId) })
+    role.menus = menus
+    await this.roleRepository.save(role)
+    return '分配成功'
+  }
+
+  /**
+   * 根据菜单 ID 组获取对应菜单列表 给角色分配权限用
+   */
+  async findMenuListByMenuIds(menuIds: string[]) {
+    return this.entityManager.findBy(MenuEntity, { id: In(menuIds), status: Equal(1) })
   }
 }
