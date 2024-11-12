@@ -5,6 +5,8 @@ import { EntityManager, Equal, FindOptionsWhere, In, Like, Repository } from 'ty
 import { AuthPermissionDto, CreateRoleDto, UpdateRoleDto } from './role.dto'
 import { ApiException } from '@/common'
 import { MenuEntity } from '../menu/menu.entiy'
+import { transformListToTree } from '@/utils/tree-helper'
+import { firstToUpper } from '@/utils'
 
 @Injectable()
 export class RoleService {
@@ -83,11 +85,64 @@ export class RoleService {
   /**
    * 根据角色 id 数组查询拥有的所有菜单并去重
    */
-  async findAllMenusByRoleIds(roleIds: string[]) {
-    const records = await this.menuRepository.createQueryBuilder('menu').leftJoin('menu.roles', 'role').where('role.id IN (:...roleIds)', { roleIds }).getMany()
+  async findAllMenusByRoleIds(isAdmin: boolean, roleIds: string[]) {
+    let records: MenuEntity[] = []
+    if (isAdmin) {
+      records = await this.menuRepository.find({ order: { order: 'ASC' } })
+    } else {
+      records = await this.menuRepository
+        .createQueryBuilder('menu')
+        .leftJoin('menu.roles', 'role')
+        .where('role.id IN (:...roleIds)', { roleIds })
+        .orderBy('menu.order', 'ASC')
+        .getMany()
+    }
     const uniqueRecords = Array.from(new Set(records.map((record) => record.id))).map((id) => records.find((record) => record.id === id))
-    const menus = uniqueRecords.filter((v) => v.type === 'M' || v.type === 'C')
-    const permissions = uniqueRecords.filter((v) => v.type === 'F')
+    const enableRecords = uniqueRecords.filter((item) => item.status === 1)
+    const menus = enableRecords.filter((v) => v.type === 'M' || v.type === 'C')
+    const permissions = enableRecords.filter((v) => v.type === 'F')
     return { menus, permissions }
+  }
+
+  generateRoutes(menuList: MenuEntity[]) {
+    const menuTreeList = []
+    const treeList = transformListToTree<MenuEntity>(menuList)
+    for (const item of treeList) {
+      if (item.parentId === '0') {
+        if (item.type === 'C') {
+          const obj = { path: '/', component: 'Layout', children: [JSON.parse(JSON.stringify(item))] }
+          menuTreeList.push(obj)
+        } else if (item.type === 'M' && item.frame === 1) {
+          const obj = { path: item.path, component: 'Layout', children: [JSON.parse(JSON.stringify(item))] } // 适配一级外链
+          menuTreeList.push(obj)
+        } else {
+          menuTreeList.push(item)
+        }
+      }
+    }
+    return this.createRouterTree(menuTreeList)
+  }
+
+  createRouterTree(menuList: any[]) {
+    const routerList: any[] = []
+    for (const item of menuList) {
+      const route: Record<string, any> = {}
+      route.component = item.component
+      if (item.path) route.name = firstToUpper(item.path)
+      route.path = item.path
+      route.meta = {}
+      route.meta.title = item.title
+      route.meta.icon = item.icon
+      route.meta.hidden = item.visible === 0 ? true : false
+      // 处理目录类型 M
+      if (item.type === 'M') {
+        route.component = item.path.includes('/') ? 'Layout' : 'ParentView'
+        route.meta.alwaysShow = true
+        if (item.frame === 1) route.meta.alwaysShow = false
+      }
+      if (item.children && item.children.length) route.children = this.createRouterTree(item.children)
+      routerList.push(route)
+    }
+    return routerList
   }
 }

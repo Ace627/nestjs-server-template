@@ -54,12 +54,26 @@ export class LoginService {
    */
   async getInfo(userId: string) {
     const user = await this.userService.findOneById(userId)
+    const isAdmin = user.roles.some((role) => role.code === 'admin')
     const roleIds = user.roleIds
     const roles = user.roles.map((role) => role.code)
     const userInfo = omit(user, ['roleIds', 'roles'])
-    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(roleIds)
+    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(isAdmin, roleIds)
     const permissions = menuInfo.permissions.map((v) => v.permission)
     return { userInfo, roles, permissions }
+  }
+
+  /**
+   * 获取用户路由信息
+   */
+  async getRoutes(userId: string) {
+    const user = await this.userService.findOneById(userId)
+    const isAdmin = user.roles.some((role) => role.code === 'admin')
+    const roleIds = user.roles.map((role) => role.id)
+    if (!isAdmin && !roleIds.length) return []
+    const menuInfo = await this.roleSerivce.findAllMenusByRoleIds(isAdmin, roleIds)
+    const routes = this.roleSerivce.generateRoutes(menuInfo.menus)
+    return routes
   }
 
   /**

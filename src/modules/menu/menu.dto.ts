@@ -27,6 +27,9 @@ export class CreateMenuDto {
   status: number
 
   @IsOptional()
+  frame: number
+
+  @IsOptional()
   component: string
 
   @IsOptional()
