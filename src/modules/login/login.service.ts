@@ -42,7 +42,7 @@ export class LoginService {
     return { accessToken }
   }
 
-  /** 获取个人信息 */
+  /** 获取个人权限信息 */
   async getInfo(userId: string) {
     // 根据 ID 获取单个用户
     const userInfo = await this.userService.findOneById(userId)
@@ -54,20 +54,9 @@ export class LoginService {
     const roles = userRoles.map((role) => role.code)
     const menuInfo = await this.roleSerivce.findMenusByRoleIds(isAdmin, roleIds)
     const permissions = menuInfo.permissions.map((v) => v.permission)
-    return { userInfo, roles, permissions }
-  }
-
-  /** 获取用户路由信息 */
-  async getRoutes(userId: string) {
-    // 根据 ID 查询用户角色
-    const userRoles = await this.userService.findRoles(userId)
-    const isAdmin = userRoles.some((role) => role.code === 'admin')
-    const roleIds = userRoles.map((role) => role.id)
     // 不是管理员 也没有角色 那就什么都看不到呗
-    if (!isAdmin && !roleIds.length) return []
-    const menuInfo = await this.roleSerivce.findMenusByRoleIds(isAdmin, roleIds)
-    const routes = this.roleSerivce.generateRoutes(menuInfo.menus)
-    return routes
+    const menus = isAdmin || roleIds.length ? menuInfo.menus : []
+    return { userInfo, roles, menus, permissions }
   }
 
   /** 用户登出 */

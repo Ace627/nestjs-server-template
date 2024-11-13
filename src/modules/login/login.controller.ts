@@ -27,12 +27,6 @@ export class LoginController {
     return this.loginService.getInfo(payload.id)
   }
 
-  /** 获取用户路由信息 */
-  @Get('getRoutes')
-  getRoutes(@Headers(AuthEnum.PAYLOAD) payload: JwtPayload) {
-    return this.loginService.getRoutes(payload.id)
-  }
-
   /** 用户登出 */
   @Post('logout')
   @AllowNoToken()

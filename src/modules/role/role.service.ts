@@ -98,46 +98,4 @@ export class RoleService {
     const permissions = sortRecords.filter((v) => v.type === 'F') // 按钮权限
     return { menus, permissions }
   }
-
-  generateRoutes(menuList: MenuEntity[]) {
-    const menuTreeList = []
-    const treeList = transformListToTree<MenuEntity>(menuList)
-    for (const item of treeList) {
-      if (item.parentId === '0') {
-        if (item.type === 'C') {
-          const obj = { path: '/', component: 'Layout', children: [JSON.parse(JSON.stringify(item))] }
-          menuTreeList.push(obj)
-        } else if (item.type === 'M' && item.frame === 1) {
-          const obj = { path: item.path, component: 'Layout', children: [JSON.parse(JSON.stringify(item))] } // 适配一级外链
-          menuTreeList.push(obj)
-        } else {
-          menuTreeList.push(item)
-        }
-      }
-    }
-    return this.createRouterTree(menuTreeList)
-  }
-
-  createRouterTree(menuList: any[]) {
-    const routerList: any[] = []
-    for (const item of menuList) {
-      const route: Record<string, any> = {}
-      route.component = item.component
-      if (item.path) route.name = firstToUpper(item.path)
-      route.path = item.path
-      route.meta = {}
-      route.meta.title = item.title
-      route.meta.icon = item.icon
-      route.meta.hidden = item.visible === 0 ? true : false
-      // 处理目录类型 M
-      if (item.type === 'M') {
-        route.component = item.path.includes('/') ? 'Layout' : 'ParentView'
-        route.meta.alwaysShow = true
-        if (item.frame === 1) route.meta.alwaysShow = false
-      }
-      if (item.children && item.children.length) route.children = this.createRouterTree(item.children)
-      routerList.push(route)
-    }
-    return routerList
-  }
 }
