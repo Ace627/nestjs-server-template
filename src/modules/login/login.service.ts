@@ -53,9 +53,9 @@ export class LoginService {
     const roleIds = userRoles.map((role) => role.id)
     const roles = userRoles.map((role) => role.code)
     const menuInfo = await this.roleSerivce.findMenusByRoleIds(isAdmin, roleIds)
-    const permissions = menuInfo.permissions.map((v) => v.permission)
-    // 不是管理员 也没有角色 那就什么都看不到呗
-    const menus = isAdmin || roleIds.length ? menuInfo.menus : []
+    const permissions = menuInfo.filter((v) => v.type === 'F').map((v) => v.permission)
+    // 不是管理员 也没有角色 那就什么动态路由都看不到呗
+    const menus = isAdmin || roleIds.length ? menuInfo.filter((v) => ['M', 'C'].includes(v.type)) : []
     return { userInfo, roles, menus, permissions }
   }
 

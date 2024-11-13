@@ -7,7 +7,7 @@ import { ApiException } from '@/common'
 import { MenuEntity } from '../menu/menu.entiy'
 import { transformListToTree } from '@/utils/tree-helper'
 import { firstToUpper } from '@/utils'
-import { flatMapDeep, unionBy } from 'lodash'
+import { flatMapDeep, orderBy, unionBy } from 'lodash'
 
 @Injectable()
 export class RoleService {
@@ -93,9 +93,7 @@ export class RoleService {
       records = flatMapDeep(roles.map((role) => role.menus))
     }
     const uniqueRecords = unionBy(records, 'id').filter((v) => v.status === 1) // 去重且去除停用菜单
-    const sortRecords = uniqueRecords.sort((a, b) => a.order - b.order) // 菜单升序排序
-    const menus = sortRecords.filter((v) => v.type === 'M' || v.type === 'C') // 目录、菜单
-    const permissions = sortRecords.filter((v) => v.type === 'F') // 按钮权限
-    return { menus, permissions }
+    const sortRecords = orderBy(uniqueRecords, 'order', 'asc') // 菜单升序排序
+    return sortRecords
   }
 }
