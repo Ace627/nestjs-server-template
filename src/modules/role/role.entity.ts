@@ -11,7 +11,7 @@ export class RoleEntity extends CommonEntity {
   @Column({ comment: '角色名称', default: null })
   name: string
 
-  @ManyToMany(() => UserEntity, (user) => user.roles)
+  @ManyToMany(() => UserEntity, (user) => user.roles, { onDelete: 'CASCADE' })
   users: UserEntity[]
 
   @ManyToMany(() => MenuEntity, (menu) => menu.roles)

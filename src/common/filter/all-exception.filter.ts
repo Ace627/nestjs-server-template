@@ -48,11 +48,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = '数据库连接异常，请联系管理员'
     }
 
+    if (message.includes('foreign key constraint fails')) {
+      message = '数据库存在外键约束，导致操作失败'
+    }
+
     // console.log(JSON.stringify(exception))
 
     // 错误日志终端打印
     Logger.error(`${request.method.toUpperCase()} ${request.path} ${message}`)
-    // Logger.error(JSON.stringify(exception))
+    console.log(JSON.stringify(exception))
 
     // console.log(`\n------------------------------ Query Params ------------------------------`)
     // Logger.error(`'查询参数': ${JSON.stringify(request.query || {})}`)
