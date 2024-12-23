@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+     // 设定编译后的 JavaScript 文件使用的模块化方案
+    "module": "commonjs",
+    // 设定编译后的 JavaScript 文件的 ECMAScript 目标版本
+    "target": "ES2021",
+    // 模块加载兼容模式,可以使用 import from 语法导入 commonJS 模块
+    "esModuleInterop": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
+    "outDir": "./dist",
+   // 解析非相对模块名的基准目录
+   "baseUrl": "./",
+   // 模块名到基于 baseUrl 的路径映射的列表
+   "paths": {
+     "@/*": ["src/*"],
+     "#/*": ["types/*"]
+   },
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}

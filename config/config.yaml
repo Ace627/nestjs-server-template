@@ -1,0 +1,25 @@
+server:
+  port: 3000 # 服务器监听端口
+  globalPrefix: '/api' # 全局路由前缀
+  
+jwt:
+  secret: 'hy3YrblS3ojWf4hm' # Token 密钥
+  signOptions:
+    expiresIn: 1800 # Redis 中 Token 的有效期 半小时 单位秒
+    
+redis:
+  url: 'redis://127.0.0.1:6379'
+  password: '12345'
+
+database:
+  type: 'mysql' # 表示要连接的数据库类型，例如 mysql oracle sqlite mongodb
+  host: '127.0.0.1' # 数据库服务器地址
+  port: 3306 # 数据库服务器端口
+  timezone: '+08:00' # 时区配置 东八区
+  username: 'nestjsdb' # 数据库服务器的用户名
+  password: 'nestjsdbpassword' # 数据库服务器的密码
+  database: 'nestjsdb' # 表示你需要连接到数据库名
+  retryDelay: 3000 # 连接重试之间的延迟（毫秒） (默认值: 3000)
+  retryAttempts: 10 # 尝试连接数据库的次数 (默认值: 10)
+  autoLoadEntities: true # 是否需要自动加载实体
+  synchronize: false # 表示在应用启动时是否自动创建和更新数据库结构（生产环境中禁止开启，应该使用数据迁移）
