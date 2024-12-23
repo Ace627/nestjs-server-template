@@ -1,12 +1,13 @@
 server:
   port: 3000 # 服务器监听端口
   globalPrefix: '/api' # 全局路由前缀
-  
+
 jwt:
   secret: 'hy3YrblS3ojWf4hm' # Token 密钥
+  global: true # 是否将 JwtModule 配置为全局模块
   signOptions:
     expiresIn: 1800 # Redis 中 Token 的有效期 半小时 单位秒
-    
+
 redis:
   url: 'redis://127.0.0.1:6379'
   password: '12345'
