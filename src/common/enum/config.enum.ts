@@ -8,9 +8,9 @@ export enum ConfigEnum {
   /** Redis 连接配置 */
   REDIS = 'redis',
 
-  /** Token 环境配置 */
+  /** 配置生成 JWT 时的选项 */
   JWT = 'jwt',
 
-  /** Token 有效时长 */
+  /** Token 令牌的有效时长 单位秒 */
   JWT_EXPIRESIN = 'jwt.signOptions.expiresIn',
 }

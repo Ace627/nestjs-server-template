@@ -21,10 +21,13 @@ interface ServerConfig {
 }
 
 interface JwtConfig {
-  /** Token 密钥 */
+  /** 指定用于签名和验证 JWT 的密钥 */
   secret: string
+  /** 指示是否将 JwtModule 配置为全局模块。设置为 true 时，JwtModule 会在整个应用程序中全局可用 */
+  global: boolean
+  /** 配置生成 JWT 时的选项，如过期时间、算法等 */
   signOptions: {
-    /** Token 过期时间 */
+    /** 设置令牌的过期时间。可以是 string（如 '60m'、'2d'）或者 number（秒） | 这里直接统一用秒了 */
     expiresIn: number
   }
 }

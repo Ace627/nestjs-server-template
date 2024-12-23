@@ -4,8 +4,8 @@ import { JwtModule, JwtModuleOptions } from '@nestjs/jwt' // third module
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import configuration from './configuration' // custom module
-import { AppService } from './app.service'
 import { AppController } from './app.controller'
+import { SharedModule } from './shared/shared.module'
 import { AllExceptionsFilter, ConfigEnum, ResponseInterceptor } from './common'
 
 @Module({
@@ -16,10 +16,11 @@ import { AllExceptionsFilter, ConfigEnum, ResponseInterceptor } from './common'
     TypeOrmModule.forRootAsync({ useFactory: (configService: ConfigService) => configService.get<TypeOrmModuleOptions>(ConfigEnum.DATABASE), inject: [ConfigService] }),
     //  配置 Json Web Token
     JwtModule.registerAsync({ useFactory: (configService: ConfigService) => configService.get<JwtModuleOptions>(ConfigEnum.JWT), inject: [ConfigService] }),
+    // 全局模块
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [
-    AppService,
     // 注册全局 DTO 验证管道
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true, transform: true }) },
     //  全局异常过滤器
