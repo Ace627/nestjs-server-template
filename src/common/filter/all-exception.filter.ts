@@ -64,6 +64,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     response.status(status)
     response.setHeader('Content-Type', 'application/json')
-    response.json({ code, success: false, message, data: exception, timestamp: Date.now() })
+    response.json({ code, success: false, message, data: null, timestamp: Date.now() })
   }
 }
