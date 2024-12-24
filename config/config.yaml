@@ -4,7 +4,6 @@ server:
 
 jwt:
   secret: 'hy3YrblS3ojWf4hm' # Token 密钥
-  global: true # 是否将 JwtModule 配置为全局模块
   signOptions:
     expiresIn: 1800 # Redis 中 Token 的有效期 半小时 单位秒
 

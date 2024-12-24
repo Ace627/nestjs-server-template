@@ -16,7 +16,7 @@ import { MonitorModule } from './modules/monitor/monitor.module'
     // 连接 MySQL 数据库
     TypeOrmModule.forRootAsync({ useFactory: (configService: ConfigService) => configService.get<TypeOrmModuleOptions>(ConfigEnum.DATABASE), inject: [ConfigService] }),
     //  配置 Json Web Token
-    JwtModule.registerAsync({ useFactory: (configService: ConfigService) => configService.get<JwtModuleOptions>(ConfigEnum.JWT), inject: [ConfigService] }),
+    JwtModule.registerAsync({ useFactory: (configService: ConfigService) => configService.get<JwtModuleOptions>(ConfigEnum.JWT), global: true, inject: [ConfigService] }),
     // 全局模块
     SharedModule,
     // 业务模块 --> 系统监控
