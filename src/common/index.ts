@@ -1,3 +1,4 @@
+export { RedisKey } from './constant/redis.constant'
 export { DecoratorKey } from './constant/decorator.constant'
 
 export { Raw } from './decorator/raw.decorator'

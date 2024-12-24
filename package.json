@@ -37,6 +37,7 @@
     "redis": "4.7.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "svg-captcha": "1.4.0",
     "systeminformation": "5.23.17",
     "typeorm": "0.3.20"
   },

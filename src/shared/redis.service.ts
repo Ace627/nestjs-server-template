@@ -14,7 +14,7 @@ export class RedisService {
 
   /** 设置缓存（支持过期时间） 如果不传递 ttl，则是永久缓存 */
   public set(key: string, value: string, ttl?: number) {
-    ttl ? this.redisClient.setEx(key, ttl, value) : this.redisClient.set(key, value)
+    return ttl ? this.redisClient.setEx(key, ttl, value) : this.redisClient.set(key, value)
   }
 
   /** 延长指定 key 的过期时间（单位：秒） */
@@ -29,7 +29,7 @@ export class RedisService {
 
   /** 删除缓存 */
   public del(key: string) {
-    this.redisClient.del(key)
+    return this.redisClient.del(key)
   }
 
   /** 检查缓存是否存在 */
