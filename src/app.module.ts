@@ -7,6 +7,7 @@ import configuration from './configuration' // custom module
 import { AppController } from './app.controller'
 import { SharedModule } from './shared/shared.module'
 import { AllExceptionsFilter, ConfigEnum, ResponseInterceptor } from './common'
+import { MonitorModule } from './modules/monitor/monitor.module'
 
 @Module({
   imports: [
@@ -18,6 +19,8 @@ import { AllExceptionsFilter, ConfigEnum, ResponseInterceptor } from './common'
     JwtModule.registerAsync({ useFactory: (configService: ConfigService) => configService.get<JwtModuleOptions>(ConfigEnum.JWT), inject: [ConfigService] }),
     // 全局模块
     SharedModule,
+    // 业务模块 --> 系统监控
+    MonitorModule,
   ],
   controllers: [AppController],
   providers: [
