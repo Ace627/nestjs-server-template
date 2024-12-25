@@ -1,10 +1,12 @@
+import { join } from 'path'
+import { ConfigEnum } from './common'
+import { AppModule } from './app.module'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
-import { AppModule } from './app.module'
-import { ConfigEnum } from './common'
+import { type NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
   // 读取环境变量配置
   const configService = app.get(ConfigService)
@@ -13,12 +15,17 @@ async function bootstrap() {
   // 设置全局接口前缀
   app.setGlobalPrefix(globalPrefix)
 
+  // 配置静态资源目录
+  const staticAssetsPath = join(__dirname, process.env.NODE_ENV === 'development' ? '../public' : './public')
+  app.useStaticAssets(staticAssetsPath, { prefix: 'public' })
+
   // 监听指定 启动服务
   await app.listen(port)
 
   // 打印本地服务地址
   console.log('\n--------------------------------------------------')
   console.log(`➜  Local:    http://localhost:${port}${globalPrefix}`)
+  console.log(`➜  Static:   http://localhost:${port}/public`)
   console.log('--------------------------------------------------')
 }
 

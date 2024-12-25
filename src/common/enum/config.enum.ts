@@ -13,4 +13,10 @@ export enum ConfigEnum {
 
   /** Token 令牌的有效时长 单位秒 */
   JWT_EXPIRESIN = 'jwt.signOptions.expiresIn',
+
+  /** 静态资源目录 */
+  STATIC_ASSETS_PATH = 'staticAssetsPath',
+
+  /** 静态资源目录访问前缀 */
+  STATIC_ASSETS_PREFIX = 'staticAssetsPrefix',
 }

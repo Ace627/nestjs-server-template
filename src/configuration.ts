@@ -1,12 +1,11 @@
 import { join } from 'path'
 import jsYaml from 'js-yaml'
 import merge from 'lodash/merge'
-import { ConfigEnum } from './common'
 import { readFileSync, existsSync } from 'fs'
 
 export default (): Record<string, any> => {
   // 获取配置文件的存放目录 开发环境读取根目录的 config 目录；生产环境直接读取根目录
-  const CONFIG_DIR_PATH = process.env.NODE_ENV ? join(__dirname, '../config') : __dirname
+  const CONFIG_DIR_PATH = process.env.NODE_ENV === 'development' ? join(__dirname, '../config') : __dirname
   // 通用配置文件的路径
   const YAML_COMMON_CONFIG_PATH = join(CONFIG_DIR_PATH, 'config.yaml')
   // 读取通用配置文件的内容
