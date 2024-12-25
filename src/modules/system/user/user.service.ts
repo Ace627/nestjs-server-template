@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { UserEntity, ApiException } from '@/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Equal, FindOptionsWhere, Like, Repository } from 'typeorm'
-import { CreateUserDto } from './dto'
+import { CreateUserDto, UpdateUserDto } from './dto'
 
 @Injectable()
 export class UserService {
@@ -21,14 +21,23 @@ export class UserService {
     return '添加成功'
   }
 
+  /** 修改用户个人信息 */
+  public async update(updateDto: UpdateUserDto): Promise<string> {
+    await this.userRepository.save(updateDto)
+    return '更新成功'
+  }
+
+  /** 根据用户 ID 查找用户信息 */
+  public async findUserById(userId: string): Promise<UserEntity> {
+    const user = await this.userRepository.findOneBy({ id: Equal(userId) })
+    if (!user) throw new ApiException(`用户不存在或已停用`)
+    Reflect.deleteProperty(user, 'password')
+    return user
+  }
+
   /** 根据用户账号查询用户 */
-  public async findUserByUsername(username: string): Promise<Pick<UserEntity, 'id' | 'username' | 'password'>> {
-    const user = await this.userRepository
-      .createQueryBuilder('user')
-      .select(['user.id', 'user.username', 'user.password'])
-      .where('user.username = :username', { username })
-      .andWhere('user.status = 1')
-      .getOne()
+  public async findUserByUsername(username: string): Promise<UserEntity> {
+    const user = await this.userRepository.findOneBy({ username: Equal(username), status: Equal(1) })
     if (!user) throw new ApiException(`用户 ${username} 不存在或已停用`)
     return user
   }
