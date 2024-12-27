@@ -60,7 +60,6 @@ export class JwtAuthGuard implements CanActivate {
    */
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? []
-    if (type !== AuthEnum.TOKEN_PREFIX || !token) throw new ApiException('Authorization Header 格式错误', HttpStatus.UNAUTHORIZED)
-    return token
+    return type === AuthEnum.TOKEN_PREFIX ? token : undefined
   }
 }

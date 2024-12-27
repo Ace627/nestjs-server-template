@@ -19,6 +19,11 @@ async function bootstrap() {
   const staticAssetsPath = join(__dirname, process.env.NODE_ENV === 'development' ? '../public' : './public')
   app.useStaticAssets(staticAssetsPath, { prefix: 'public' })
 
+  // 配置模板引擎
+  const baseViewsDir = join(__dirname, process.env.NODE_ENV === 'development' ? '../src/views' : './views')
+  app.setBaseViewsDir(baseViewsDir)
+  app.setViewEngine('hbs')
+
   // 监听指定 启动服务
   await app.listen(port)
 

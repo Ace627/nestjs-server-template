@@ -3,7 +3,11 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "assets": [{ "include": "../public/**/*", "outDir": "./dist/public" }],
+    "assets": [
+      { "include": "../public/**/*", "outDir": "./dist/public" },
+      { "include": "../src/views/**/*", "outDir": "./dist/views" },
+      { "include": "../package.json", "outDir": "./dist/package.json" }
+    ],
     "deleteOutDir": true,
     "builder": "webpack"
   },
