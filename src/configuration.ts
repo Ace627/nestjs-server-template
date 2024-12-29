@@ -1,7 +1,9 @@
 import { join } from 'path'
 import jsYaml from 'js-yaml'
 import merge from 'lodash/merge'
+import { ConfigEnum } from './common'
 import { readFileSync, existsSync } from 'fs'
+import { JwtModuleOptions } from '@nestjs/jwt'
 
 export default (): Record<string, any> => {
   // 获取配置文件的存放目录 开发环境读取根目录的 config 目录；生产环境直接读取根目录
@@ -17,5 +19,8 @@ export default (): Record<string, any> => {
   // 合并通用配置和特点环境的配置 然后暴露出去
   const MERGE_CONFIG = merge(COMMON_CONFIG, ENV_CONFIG)
 
-  return MERGE_CONFIG
+  const { secret } = MERGE_CONFIG[ConfigEnum.JWT] as JwtConfig
+  const JWT_OPTION: JwtModuleOptions = { secret, signOptions: { expiresIn: 24 * 60 * 60 } }
+
+  return merge(MERGE_CONFIG, JWT_OPTION)
 }

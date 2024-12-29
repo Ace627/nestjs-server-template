@@ -2,7 +2,8 @@ import argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
 import { Injectable } from '@nestjs/common'
 import { LoginAccountDto } from './login.dto'
-import { ApiException, RedisKey } from '@/common'
+import { ConfigService } from '@nestjs/config'
+import { ApiException, ConfigEnum, RedisKey } from '@/common'
 import { RedisService } from '@/shared/redis.service'
 import { UserService } from '../system/user/user.service'
 import { CaptchaService } from '@/shared/captcha.service'
@@ -13,6 +14,7 @@ export class LoginService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
     private readonly redisService: RedisService,
+    private readonly configService: ConfigService,
     private readonly captchaService: CaptchaService,
   ) {}
 
@@ -34,7 +36,7 @@ export class LoginService {
     const accessToken = this.jwtService.sign(payload)
     // 生成的 AdminToken 缓存到 Redis
     const ADMIN_USER_TOKEN_KEY = RedisKey.getAdminUserTokenKey(payload.userId)
-    await this.redisService.set(ADMIN_USER_TOKEN_KEY, accessToken, 24 * 60 * 60)
+    await this.redisService.set(ADMIN_USER_TOKEN_KEY, accessToken, this.configService.get<number>(ConfigEnum.JWT_EXPIRESIN))
     return { accessToken }
   }
 
