@@ -47,6 +47,8 @@ export class JwtAuthGuard implements CanActivate {
       // 如果 Token 存在且通过校验则进行续期
       await this.redisService.expire(ADMIN_USER_TOKEN_KEY, this.JWT_EXPIRESIN)
 
+      request[AuthEnum.PAYLOAD] = payload
+
       // 校验通过 放行请求
       return true
     } catch (error: any) {
