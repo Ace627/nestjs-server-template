@@ -8,7 +8,7 @@ import { ConfigEnum } from '../enum/config.enum'
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => {
         // 获取 Jwt 相关的环境变量配置
-        const runtimeConfig = configService.get<JwtConfig>(ConfigEnum.DATABASE)
+        const runtimeConfig = configService.get<JwtConfig>(ConfigEnum.JWT)
         return {
           // 必须的密钥，用于签名和验证 JWT
           secret: runtimeConfig.secret,
