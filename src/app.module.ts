@@ -1,30 +1,22 @@
 import { Module, ValidationPipe } from '@nestjs/common' // core module
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE, APP_GUARD } from '@nestjs/core'
-import { JwtModule, JwtModuleOptions } from '@nestjs/jwt' // third module
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config' // third module
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import configuration from './configuration' // custom module
 import { AppController } from './app.controller'
 import { SharedModule } from './shared/shared.module'
 import { LoginModule } from './modules/login/login.module'
 import { SystemModule } from './modules/system/system.module'
 import { MonitorModule } from './modules/monitor/monitor.module'
-import { AllExceptionsFilter, AuditInterceptor, ConfigEnum, JwtAuthGuard, ResponseInterceptor } from './common'
+import { AllExceptionsFilter, AuditInterceptor, DatabaseModule, TokenModule, JwtAuthGuard, ResponseInterceptor } from './common'
 
 @Module({
   imports: [
-    // 配置环境变量
-    ConfigModule.forRoot({ load: [configuration], isGlobal: true, cache: true }),
-    // 导入速率限制模块   ttl: 单位毫秒， 表示 ttl 秒内最多只能请求 limit 次， 避免暴力攻击
-    ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]),
-    // 连接 MySQL 数据库
-    TypeOrmModule.forRootAsync({ useFactory: (configService: ConfigService) => configService.get<TypeOrmModuleOptions>(ConfigEnum.DATABASE), inject: [ConfigService] }),
-    //  配置 Json Web Token
-    JwtModule.registerAsync({ useFactory: (configService: ConfigService) => configService.get<JwtModuleOptions>(ConfigEnum.JWT), global: true, inject: [ConfigService] }),
-    // 全局模块
-    SharedModule,
-
+    ConfigModule.forRoot({ load: [configuration], isGlobal: true, cache: true }), // 配置环境变量
+    ThrottlerModule.forRoot([{ name: 'short', ttl: 1 * 60 * 1000, limit: 60 }]), // 导入速率限制模块
+    DatabaseModule, // 连接 MySQL 数据库
+    TokenModule, //  配置 Json Web Token
+    SharedModule, // 全局模块
     SystemModule, // 业务模块 --> 系统管理
     MonitorModule, // 业务模块 --> 系统监控
     LoginModule, // 业务模块 --> 登录

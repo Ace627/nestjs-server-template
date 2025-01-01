@@ -10,9 +10,9 @@ export enum ConfigEnum {
 
   /** 配置生成 JWT 时的选项 */
   JWT = 'jwt',
+
+  /** Token 令牌的有效时长 单位秒 */
   JWT_EXPIRESIN = 'jwt.expiresIn',
-  /** 最终组合的 Jwt 模块配置 */
-  JWT_OPTION = 'JWT_OPTION',
 
   /** 静态资源目录 */
   STATIC_ASSETS_PATH = 'staticAssetsPath',

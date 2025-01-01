@@ -20,3 +20,6 @@ export { JwtAuthGuard } from './guard/jwt-auth.guard'
 
 export { AuditInterceptor } from './interceptor/audit.interceptor'
 export { ResponseInterceptor } from './interceptor/response.interceptor'
+
+export { TokenModule } from './module/token.module'
+export { DatabaseModule } from './module/database.module'

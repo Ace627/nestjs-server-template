@@ -19,8 +19,5 @@ export default (): Record<string, any> => {
   // 合并通用配置和特点环境的配置 然后暴露出去
   const MERGE_CONFIG = merge(COMMON_CONFIG, ENV_CONFIG)
 
-  const { secret } = MERGE_CONFIG[ConfigEnum.JWT] as JwtConfig
-  const JWT_OPTION: JwtModuleOptions = { secret, signOptions: { expiresIn: 24 * 60 * 60 } }
-
-  return merge(MERGE_CONFIG, JWT_OPTION)
+  return MERGE_CONFIG
 }
