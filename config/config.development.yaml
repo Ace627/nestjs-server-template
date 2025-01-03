@@ -1,3 +1,6 @@
+server:
+  staticAssetsPath: ../public # 静态资源目录
+  baseViewsDir: ../src/views # 模板引擎目录
 
 database:
   synchronize: true # 表示在应用启动时是否自动创建和更新数据库结构（生产环境中禁止开启，应该使用数据迁移）

@@ -1,6 +1,8 @@
 server:
   port: 3000 # 服务器监听端口
   globalPrefix: '/api' # 全局路由前缀
+  staticAssetsPath: ./public # 静态资源目录
+  baseViewsDir: ./views # 模板引擎目录
 
 jwt:
   secret: 'hy3YrblS3ojWf4hm' # Token 密钥

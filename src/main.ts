@@ -10,18 +10,17 @@ async function bootstrap() {
 
   // 读取环境变量配置
   const configService = app.get(ConfigService)
-  const { port, globalPrefix } = configService.get<ServerConfig>(ConfigEnum.SERVER)
+  const { port, globalPrefix, staticAssetsPath, baseViewsDir } = configService.get<ServerConfig>(ConfigEnum.SERVER)
 
   // 设置全局接口前缀
   app.setGlobalPrefix(globalPrefix)
 
   // 配置静态资源目录
-  const staticAssetsPath = join(__dirname, process.env.NODE_ENV === 'development' ? '../public' : './public')
-  app.useStaticAssets(staticAssetsPath, { prefix: 'public' })
+  const staticAssetsPathPrefix = staticAssetsPath.replace(/(\.\.\/|\.\/)/g, '/').replace(/\/+$/, '') + '/'
+  app.useStaticAssets(join(__dirname, staticAssetsPath), { prefix: staticAssetsPathPrefix })
 
   // 配置模板引擎
-  const baseViewsDir = join(__dirname, process.env.NODE_ENV === 'development' ? '../src/views' : './views')
-  app.setBaseViewsDir(baseViewsDir)
+  app.setBaseViewsDir(join(__dirname, baseViewsDir))
   app.setViewEngine('hbs')
 
   // 监听指定 启动服务

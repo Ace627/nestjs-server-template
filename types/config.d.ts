@@ -18,6 +18,10 @@ interface ServerConfig {
   port: number
   /** 全局路由前缀 默认 /api */
   globalPrefix: string
+  /** 静态资源拼接目录 */
+  staticAssetsPath: string
+  /** 模板引擎目录 */
+  baseViewsDir: string
 }
 
 interface JwtConfig {
